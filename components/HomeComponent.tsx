@@ -1,0 +1,50 @@
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+function HomeScreen({ navigation }: { navigation: any }) {
+    return (
+        <>
+            <View style={styles.outerContainer}>
+                <Text style={styles.headingText}>Home</Text>
+                <Image source={require('.././assets/images/banner.jpg')} style={styles.imageStyle} />
+                <Text style={styles.bodyText}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis enim eaque earum amet ex deleniti magni repudiandae porro voluptatem obcaecati rerum labore nulla eos aspernatur ipsam, reiciendis numquam voluptatum pariatur.
+                </Text>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+
+                    <Button icon={<Icon name='home' size={20} color={'white'} />} title=' Personal Details' buttonStyle={{ backgroundColor: 'purple' }}
+                        onPress={
+                            () => navigation.navigate('Personal Details', {
+                                userName: 'Satyam Singh',
+                                age: 24,
+                                email: 'singh35satyam@gmail.com',
+                                mobile: '9917847066',
+                                designation: 'Sr. Mobile App Developer'
+                            })} />
+
+                    <Button icon={<Icon name='heart' size={20} color={'white'} />} title=' See my skills' buttonStyle={{ backgroundColor: 'grey' }}
+                        onPress={
+                            () => navigation.navigate('Skill Set', {
+                                userName: 'Satyam Singh',
+                                age: 86
+                            })} />
+                    </View>
+
+            </View>
+        </>
+    );
+}
+
+const styles = StyleSheet.create({
+    outerContainer: {
+        padding: 16
+    },
+    headingText: { fontSize: 24, fontWeight: '500', fontFamily: 'times new roman', marginBottom: 12 },
+    imageStyle: { width: '100%', height: 240, marginBottom: 26 },
+    bodyText: { fontSize: 24, marginBottom: 16, textAlign: 'justify', color: 'black', fontFamily: 'cursive' }
+
+})
+
+export default HomeScreen

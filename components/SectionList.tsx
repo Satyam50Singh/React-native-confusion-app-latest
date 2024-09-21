@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     paragraph: {
         marginVertical: 8,
-        marginHorizontal: 24,
+        marginHorizontal: 16,
         fontSize: 18,
         fontWeight: 'bold',
     },
@@ -67,5 +67,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 5,
+        paddingHorizontal: 26
     },
 });
