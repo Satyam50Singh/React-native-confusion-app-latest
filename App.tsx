@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SectionListComponent from './components/SectionList';
 import HomeScreen from './components/HomeComponent';
 import DetailsScreen from './components/UserDetailComponent';
+import ConnectComponent from './components/ConnectComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Personal Details" component={DetailsScreen} />
         <Stack.Screen name="Skill Set" component={SectionListComponent} />
+        <Stack.Screen name="Connect" component={ConnectComponent} />
       </Stack.Navigator>
     </NavigationContainer>
   );

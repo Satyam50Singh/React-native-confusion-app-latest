@@ -1,6 +1,8 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function HomeScreen({navigation}: {navigation: any}) {
   const userdetail = {
@@ -27,21 +29,49 @@ function HomeScreen({navigation}: {navigation: any}) {
 
         <View style={styles.btnGroup}>
           <Button
-            icon={<Icon name="home" size={20} color={'white'} />}
-            title=" Personal Details"
+            icon={
+              <Icon
+                name="user-circle-o"
+                size={20}
+                color={'white'}
+                style={{marginRight: 10}}
+              />
+            }
+            title="Personal Details"
             buttonStyle={{backgroundColor: 'purple'}}
-            onPress={() => navigation.navigate('Personal Details', {userdetail})}
+            onPress={() =>
+              navigation.navigate('Personal Details', {userdetail})
+            }
           />
 
           <Button
-            icon={<Icon name="heart" size={20} color={'white'} />}
-            title=" See my skills"
-            buttonStyle={{backgroundColor: 'grey'}}
-            onPress={() =>
-              navigation.navigate('Skill Set')
+            icon={
+              <MaterialIcons
+                name="read-more"
+                size={26}
+                color={'white'}
+                style={{marginRight: 10}}
+              />
             }
+            title="See my skills"
+            buttonStyle={{backgroundColor: 'grey'}}
+            onPress={() => navigation.navigate('Skill Set')}
           />
         </View>
+        <Button
+          icon={
+            <EntypoIcon
+              name="mail"
+              size={24}
+              color={'white'}
+              style={{marginLeft: 10}}
+            />
+          }
+          title="Connect"
+          iconRight
+          buttonStyle={{backgroundColor: 'blue', margin: 22}}
+          onPress={() => navigation.navigate('Connect')}
+        />
       </View>
     </>
   );
