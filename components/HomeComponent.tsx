@@ -1,10 +1,12 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useState, useEffect} from 'react';
 
 function HomeScreen({navigation}: {navigation: any}) {
+  const [isLoad, setIsLoad] = useState(false);
   const userdetail = {
     userName: 'Satyam Singh',
     age: 24,
@@ -12,6 +14,15 @@ function HomeScreen({navigation}: {navigation: any}) {
     mobile: '9917847066',
     designation: 'Sr. Mobile App Developer',
   };
+
+  useEffect(() => {
+    console.log('Component Mounted');
+
+    return () => {
+      console.log('Component Unmounted');
+    };
+  });
+
   return (
     <>
       <View style={styles.outerContainer}>
@@ -39,9 +50,13 @@ function HomeScreen({navigation}: {navigation: any}) {
             }
             title="Personal Details"
             buttonStyle={{backgroundColor: 'purple'}}
-            onPress={() =>
-              navigation.navigate('Personal Details', {userdetail})
-            }
+            onPress={() => {
+              setIsLoad(true);
+              setTimeout(() => {
+                setIsLoad(false);
+                navigation.navigate('Personal Details', {userdetail});
+              }, 3000);
+            }}
           />
 
           <Button
@@ -73,6 +88,14 @@ function HomeScreen({navigation}: {navigation: any}) {
           onPress={() => navigation.navigate('Connect')}
         />
       </View>
+      {isLoad && (
+        <View style={styles.loadingContainer}>
+          <View style={styles.loadingModal}>
+            <ActivityIndicator size={40} color="black" animating={isLoad} />
+            <Text style={{fontSize: 22, color: 'black'}}> Loading ...</Text>
+          </View>
+        </View>
+      )}
     </>
   );
 }
@@ -86,6 +109,29 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontFamily: 'times new roman',
     marginBottom: 12,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute', // This will overlay the loading indicator over the rest of the content
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  loadingModal: {
+    backgroundColor: 'white',
+    paddingVertical: 40,
+    paddingHorizontal: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#ddd',
+    shadowColor: 'grey',
+    elevation: 4,
   },
   imageStyle: {width: '100%', height: 240, marginBottom: 26},
   bodyText: {
