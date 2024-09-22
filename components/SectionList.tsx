@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 const skills = [
   {
     id: 1,
@@ -27,12 +28,18 @@ const skills = [
   },
 ];
 
-export default function SectionListComponent() {
+export default function SectionListComponent({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}) {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableHighlight
         underlayColor="transparent"
-        onPress={() => console.warn('Button Clicked')}>
+        onPress={() => navigation.navigate('Experience')}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Work Experience</Text>
           <MaterialIcons
