@@ -4,14 +4,119 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableHighlight,
+  Pressable,
   View,
   TextInput,
+  Modal,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+const typesOfShits = [
+  {
+    id: 1,
+    shift: 'Morning Shift',
+  },
+  {
+    id: 2,
+    shift: 'Evening Shift',
+  },
+  {
+    id: 3,
+    shift: 'Night Shift',
+  },
+];
+
+function SelectShiftComponent(props) {
+  const [selectedRadio, setSelectedRadio] = useState(-1);
+
+  const handlePress = id => {
+    setSelectedRadio(id);
+    // Notify parent to close the modal
+    setTimeout(() => {
+      props.onClose(); // Call the function passed from the parent to close the modal
+    }, 500);
+  };
+  return (
+    <Modal transparent={true} visible={props.visible} animinationType="slide">
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+        }}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            paddingHorizontal: 40,
+            paddingVertical: 30,
+            borderRadius: 12,
+            borderWidth: 2,
+            elevation: 6,
+            borderColor: '#ddd',
+          }}>
+          {typesOfShits.map((item, index) => {
+            return (
+              <Pressable key={item.id} onPress={() => handlePress(item.id)}>
+                <View style={{flexDirection: 'row'}}>
+                  <View
+                    style={[
+                      styles.selectShiftBox,
+                      {
+                        textAlign: 'center',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        padding: 8,
+                        justifyContent: 'space-between',
+                      },
+                    ]}>
+                    <Text
+                      style={{fontSize: 18, color: 'black', fontWeight: 500}}>
+                      {item.shift}
+                    </Text>
+                    <View
+                      style={{
+                        width: 24,
+                        height: 24,
+                        borderRadius: 12,
+                        marginLeft: 10,
+                        borderWidth: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderColor: 'blue',
+                      }}>
+                      {selectedRadio === item.id ? (
+                        // <View
+                        //   style={{
+                        //     width: 18,
+                        //     height: 18,
+                        //     borderRadius: 12,
+                        //     borderWidth: 1,
+                        //     // backgroundColor: 'blue',
+                        //   }}>
+                        <FontAwesome
+                          name="check-circle"
+                          size={22}
+                          color="blue"
+                        />
+                      ) : // </View>
+                      null}
+                    </View>
+                  </View>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+    </Modal>
+  );
+}
 
 function ExperienceComponent() {
   const [isYesSelected, setIsYesSelected] = useState(false);
   const [isNoSelected, setIsNoSelected] = useState(false);
+  const [isShiftSelected, setIsShiftSelected] = useState(false);
 
   return (
     <View style={{flex: 1}}>
@@ -132,8 +237,18 @@ function ExperienceComponent() {
             style={styles.textInput}
             placeholder={'Select Account Type'}
           />
+          <Pressable onPress={() => setIsShiftSelected(true)}>
+            <View style={styles.selectBox}>
+              <Text>Select Shift</Text>
+            </View>
+          </Pressable>
         </View>
       ) : null}
+
+      <SelectShiftComponent
+        visible={isShiftSelected}
+        onClose={() => setIsShiftSelected(false)}
+      />
     </View>
   );
 }
@@ -155,6 +270,29 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 2,
     borderColor: 'purple',
+    paddingHorizontal: 6,
+    marginBottom: 8,
+  },
+  selectBox: {
+    alignItems: 'start', // Center vertically
+    justifyContent: 'center',
+    borderRadius: 4,
+    borderWidth: 2,
+    padding: 4,
+    borderColor: 'purple',
+    height: 50,
+    marginBottom: 8,
+  },
+
+  selectShiftBox: {
+    alignItems: 'start', // Center vertically
+    justifyContent: 'center',
+    borderRadius: 4,
+    borderWidth: 2,
+    padding: 4,
+    width: 180,
+    borderColor: 'purple',
+    height: 50,
     marginBottom: 8,
   },
 });
