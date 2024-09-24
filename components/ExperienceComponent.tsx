@@ -13,18 +13,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const typesOfShits = [
-  {
-    id: 1,
-    shift: 'Morning Shift',
-  },
-  {
-    id: 2,
-    shift: 'Evening Shift',
-  },
-  {
-    id: 3,
-    shift: 'Night Shift',
-  },
+  {id: 1, shift: 'Morning Shift'},
+  {id: 2, shift: 'Evening Shift'},
+  {id: 3, shift: 'Night Shift'},
 ];
 
 function SelectShiftComponent(props) {

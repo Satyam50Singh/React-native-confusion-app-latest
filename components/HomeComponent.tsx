@@ -91,7 +91,15 @@ function HomeScreen({navigation}: {navigation: any}) {
       {isLoad && (
         <View style={styles.loadingContainer}>
           <View style={styles.loadingModal}>
-            <ActivityIndicator size={40} color="black" animating={isLoad} />
+            {Platform.OS === 'android' ? (
+              <ActivityIndicator size={40} color="black" animating={isLoad} />
+            ) : (
+              <ActivityIndicator
+                size={small}
+                color="black"
+                animating={isLoad}
+              />
+            )}
             <Text style={{fontSize: 22, color: 'black'}}> Loading ...</Text>
           </View>
         </View>
