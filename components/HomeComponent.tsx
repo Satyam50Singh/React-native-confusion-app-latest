@@ -12,8 +12,9 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useState, useEffect} from 'react';
 
-function HomeScreen({navigation}: {navigation: any}) {
+function HomeScreen({navigation, route, searchKey}: any) {
   const [isLoad, setIsLoad] = useState(false);
+
   const userdetail = {
     userName: 'Satyam Singh',
     age: 24,
@@ -33,7 +34,7 @@ function HomeScreen({navigation}: {navigation: any}) {
   return (
     <>
       <View style={styles.outerContainer}>
-        <Text style={styles.headingText}>Home</Text>
+        <Text style={styles.headingText}>{searchKey}</Text>
         <Image
           source={require('.././assets/images/banner.jpg')}
           style={styles.imageStyle}
@@ -102,7 +103,7 @@ function HomeScreen({navigation}: {navigation: any}) {
               <ActivityIndicator size={40} color="black" animating={isLoad} />
             ) : (
               <ActivityIndicator
-                size={small}
+                size="small"
                 color="black"
                 animating={isLoad}
               />
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 24,
     fontWeight: '500',
+    color: 'black',
     fontFamily: 'times new roman',
     marginBottom: 12,
   },
