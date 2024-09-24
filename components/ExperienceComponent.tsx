@@ -30,11 +30,11 @@ const typesOfShits = [
 function SelectShiftComponent(props) {
   const [selectedRadio, setSelectedRadio] = useState(-1);
 
-  const handlePress = id => {
+  const handlePress = (id, shift) => {
     setSelectedRadio(id);
     // Notify parent to close the modal
     setTimeout(() => {
-      props.onClose(); // Call the function passed from the parent to close the modal
+      props.onClose(shift); // Call the function passed from the parent to close the modal
     }, 500);
   };
   return (
@@ -57,7 +57,9 @@ function SelectShiftComponent(props) {
           }}>
           {typesOfShits.map((item, index) => {
             return (
-              <Pressable key={item.id} onPress={() => handlePress(item.id)}>
+              <Pressable
+                key={item.id}
+                onPress={() => handlePress(item.id, item.shift)}>
                 <View style={{flexDirection: 'row'}}>
                   <View
                     style={[
@@ -86,21 +88,12 @@ function SelectShiftComponent(props) {
                         borderColor: 'blue',
                       }}>
                       {selectedRadio === item.id ? (
-                        // <View
-                        //   style={{
-                        //     width: 18,
-                        //     height: 18,
-                        //     borderRadius: 12,
-                        //     borderWidth: 1,
-                        //     // backgroundColor: 'blue',
-                        //   }}>
                         <FontAwesome
                           name="check-circle"
                           size={22}
                           color="blue"
                         />
-                      ) : // </View>
-                      null}
+                      ) : null}
                     </View>
                   </View>
                 </View>
@@ -117,6 +110,7 @@ function ExperienceComponent() {
   const [isYesSelected, setIsYesSelected] = useState(false);
   const [isNoSelected, setIsNoSelected] = useState(false);
   const [isShiftSelected, setIsShiftSelected] = useState(false);
+  const [selectedShift, setSelectedShift] = useState('');
 
   return (
     <View style={{flex: 1}}>
@@ -239,7 +233,13 @@ function ExperienceComponent() {
           />
           <Pressable onPress={() => setIsShiftSelected(true)}>
             <View style={styles.selectBox}>
-              <Text>Select Shift</Text>
+              {!isShiftSelected ? (
+                <Text style={{fontSize: 16, color: 'black'}}>
+                  {selectedShift}
+                </Text>
+              ) : (
+                <Text>Select Shift</Text>
+              )}
             </View>
           </Pressable>
         </View>
@@ -247,7 +247,10 @@ function ExperienceComponent() {
 
       <SelectShiftComponent
         visible={isShiftSelected}
-        onClose={() => setIsShiftSelected(false)}
+        onClose={val => {
+          setIsShiftSelected(false);
+          setSelectedShift(val);
+        }}
       />
     </View>
   );
@@ -272,6 +275,8 @@ const styles = StyleSheet.create({
     borderColor: 'purple',
     paddingHorizontal: 6,
     marginBottom: 8,
+    fontSize: 16,
+    color: 'black',
   },
   selectBox: {
     alignItems: 'start', // Center vertically
