@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SectionListComponent from './components/SectionList';
@@ -12,15 +12,41 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Personal Details" component={DetailsScreen} />
-        <Stack.Screen name="Skill Set" component={SectionListComponent} />
-        <Stack.Screen name="Connect" component={ConnectComponent} />
-        <Stack.Screen name="Experience" component={ExperienceComponent} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <StatusBar
+        backgroundColor="black"
+        barStyle="light-content"
+        hidden={false}
+      />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              title: 'User Dashboard',
+              headerStyle: {
+                backgroundColor: '#160DO8',
+              },
+              headerTintColor: 'white',
+              headerTitleStyle: {fontSize: 20},
+            }}
+          />
+          <Stack.Screen
+            name="Personal Details"
+            component={DetailsScreen}
+            options={{title: 'User Dashboard'}}
+          />
+          <Stack.Screen
+            name="Skill Set"
+            component={SectionListComponent}
+            options={{title: 'User Skills Set'}}
+          />
+          <Stack.Screen name="Connect" component={ConnectComponent} />
+          <Stack.Screen name="Experience" component={ExperienceComponent} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
 

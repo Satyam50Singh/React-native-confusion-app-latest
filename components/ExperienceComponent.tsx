@@ -23,13 +23,12 @@ function SelectShiftComponent(props) {
 
   const handlePress = (id, shift) => {
     setSelectedRadio(id);
-    // Notify parent to close the modal
     setTimeout(() => {
-      props.onClose(shift); // Call the function passed from the parent to close the modal
+      props.onClose(shift);
     }, 500);
   };
   return (
-    <Modal transparent={true} visible={props.visible} animinationType="slide">
+    <Modal transparent visible={props.visible} animinationType="slide">
       <View
         style={{
           justifyContent: 'center',
@@ -190,7 +189,6 @@ function ExperienceComponent() {
               }}>
               <View
                 style={{
-                  // padding: 2,
                   borderColor: 'black',
                   borderWidth: 2,
                   width: 22,
@@ -198,7 +196,6 @@ function ExperienceComponent() {
                   justifyContent: 'center',
                   height: 22,
                   borderRadius: 25,
-                  // backgroundColor: 'red',
                   marginRight: 8,
                 }}>
                 {isNoSelected ? (
