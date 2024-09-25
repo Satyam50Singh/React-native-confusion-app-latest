@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  StatusBar,
-  Pressable,
-  TextInput,
-} from 'react-native';
+import {View, Text, StatusBar, Pressable, TextInput} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SectionListComponent from './components/SectionList';
@@ -16,9 +8,9 @@ import DetailsScreen from './components/UserDetailComponent';
 import ConnectComponent from './components/ConnectComponent';
 import ExperienceComponent from './components/ExperienceComponent';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
+import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,10 +50,6 @@ const RightHeader = props => {
 function App() {
   const [searchKey, setSearchKey] = useState('');
 
-  useEffect(() => {
-    console.warn(searchKey);
-  }, [searchKey]);
-
   return (
     <>
       <StatusBar
@@ -70,7 +58,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="linkedinBottomNav">
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
@@ -116,6 +104,11 @@ function App() {
           />
           <Stack.Screen name="Connect" component={ConnectComponent} />
           <Stack.Screen name="Experience" component={ExperienceComponent} />
+          <Stack.Screen
+            name="linkedinBottomNav"
+            component={LinkedInBottomNavigation}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
