@@ -1,14 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, StyleSheet, View, ScrollView} from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  FlatList,
+} from 'react-native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-const UserPostList = () => {
+const Tab = createMaterialTopTabNavigator();
+
+const CustomList = () => {
   const [posts, setPosts] = useState([]);
 
   const callApi = async () => {
     const url = 'https://jsonplaceholder.typicode.com/todos/';
-    let result = await fetch(url);
-    result = await result.json();
-    setPosts(result);
+    try {
+      let response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      let result = await response.json();
+      setPosts(result);
+    } catch (err) {
+      console.error(err.message); // Set error message in state
+    }
   };
   useEffect(() => {
     callApi();
@@ -21,7 +38,7 @@ const UserPostList = () => {
           {posts.length ? (
             posts.map(item => {
               return (
-                <View style={styles.cardView} key={item.id}>
+                <View style={styles.cardView} key={item.id.toString()}>
                   <Text style={styles.cardHeading}>{item.title}</Text>
                   <View>
                     {item.completed ? (
@@ -39,6 +56,53 @@ const UserPostList = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const FlatListComponent = () => {
+  const [posts, setPosts] = useState([]);
+
+  const callApi = async () => {
+    const url = 'https://jsonplaceholder.typicode.com/posts/';
+    try {
+      let response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      let result = await response.json();
+      setPosts(result);
+    } catch (err) {
+      console.error(err.message); // Set error message in state
+    }
+  };
+  useEffect(() => {
+    callApi();
+  }, []);
+  return (
+    <View>
+      <Text style={styles.heading}>Using Flat List</Text>
+      <FlatList
+        data={posts}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => (
+          <View style={styles.container}>
+            <View style={styles.cardView2}>
+              <Text style={styles.titleText}>Title: {item.title}</Text>
+              <Text style={styles.bodyText}>Description: {item.body}</Text>
+            </View>
+          </View>
+        )}
+      />
+    </View>
+  );
+};
+
+const UserPostList = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Custom List" component={CustomList} />
+      <Tab.Screen name="Flatlist" component={FlatListComponent} />
+    </Tab.Navigator>
   );
 };
 
@@ -62,6 +126,23 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginVertical: 4,
     flexDirection: 'row',
+  },
+  cardView2: {
+    padding: 10,
+    borderColor: '#purple',
+    borderWidth: 1,
+    borderRadius: 12,
+    marginVertical: 4,
+  },
+  titleText: {
+    fontSize: 18,
+    margin: 4,
+    fontWeight: '600',
+  },
+  bodyText: {
+    fontSize: 16,
+    margin: 4,
+    fontWeight: '500',
   },
   cardHeading: {
     fontSize: 18,

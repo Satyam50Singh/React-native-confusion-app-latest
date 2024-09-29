@@ -119,12 +119,7 @@ function App() {
           <Stack.Screen
             name="usersPosts"
             component={UserPostList}
-            options={{
-              title: 'Users Posts',
-              headerStyle: {
-                backgroundColor: '#160DO8',
-              },
-            }}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
