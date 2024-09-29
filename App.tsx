@@ -12,6 +12,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {useState} from 'react';
 import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
 import GmailTopNavigation from './components/GmailTopNavigation';
+import UserPostList from './components/posts/UsersPostListComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,7 +60,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="GmailTopNav">
+        <Stack.Navigator initialRouteName="usersPosts">
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
@@ -114,6 +115,16 @@ function App() {
             name="GmailTopNav"
             component={GmailTopNavigation}
             options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="usersPosts"
+            component={UserPostList}
+            options={{
+              title: 'Users Posts',
+              headerStyle: {
+                backgroundColor: '#160DO8',
+              },
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
