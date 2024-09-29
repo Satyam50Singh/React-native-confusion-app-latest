@@ -11,6 +11,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import {useState} from 'react';
 import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
+import GmailTopNavigation from './components/GmailTopNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,7 +59,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="linkedinBottomNav">
+        <Stack.Navigator initialRouteName="GmailTopNav">
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
@@ -107,6 +108,11 @@ function App() {
           <Stack.Screen
             name="linkedinBottomNav"
             component={LinkedInBottomNavigation}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="GmailTopNav"
+            component={GmailTopNavigation}
             options={{headerShown: false}}
           />
         </Stack.Navigator>
