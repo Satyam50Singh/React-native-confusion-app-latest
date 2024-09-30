@@ -5,7 +5,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SectionListComponent from './components/SectionList';
 import HomeScreen from './components/HomeComponent';
 import DetailsScreen from './components/UserDetailComponent';
-import ConnectComponent from './components/ConnectComponent';
 import ExperienceComponent from './components/ExperienceComponent';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,6 +12,7 @@ import {useState} from 'react';
 import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
 import GmailTopNavigation from './components/GmailTopNavigation';
 import UserPostList from './components/posts/UsersPostListComponent';
+import RegisterComponent from './components/RegisterComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,7 +60,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="usersPosts">
+        <Stack.Navigator initialRouteName="Register">
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
@@ -104,7 +104,7 @@ function App() {
             component={SectionListComponent}
             options={{title: 'User Skills Set'}}
           />
-          <Stack.Screen name="Connect" component={ConnectComponent} />
+          <Stack.Screen name="Register" component={RegisterComponent} />
           <Stack.Screen name="Experience" component={ExperienceComponent} />
           <Stack.Screen
             name="linkedinBottomNav"

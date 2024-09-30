@@ -1,8 +1,8 @@
 import React from 'react';
 import HomeScreen from './HomeComponent';
-import ConnectComponent from './ConnectComponent';
 import SectionListComponent from './SectionList';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import RegisterComponent from './RegisterComponent';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,7 +22,7 @@ export default function GmailTopNavigation() {
       />
       <Tab.Screen
         name="My Network"
-        component={ConnectComponent}
+        component={RegisterComponent}
         options={{
           headerStyle: {
             backgroundColor: '#27292B',

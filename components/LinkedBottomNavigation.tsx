@@ -1,8 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeComponent';
-import ConnectComponent from './ConnectComponent';
 import SectionListComponent from './SectionList';
+import RegisterComponent from './RegisterComponent';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ export default function LinkedInBottomNavigation() {
       />
       <Tab.Screen
         name="MyNetwork"
-        component={ConnectComponent}
+        component={RegisterComponent}
         options={{
           headerStyle: {
             backgroundColor: '#27292B',

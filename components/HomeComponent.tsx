@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useState, useEffect} from 'react';
 
-function HomeScreen({navigation, route, searchKey}: any) {
+function HomeScreen({navigation, searchKey}: any) {
   const [isLoad, setIsLoad] = useState(false);
 
   const userdetail = {
@@ -32,7 +32,7 @@ function HomeScreen({navigation, route, searchKey}: any) {
   });
 
   return (
-    <>
+    <View>
       <View style={styles.outerContainer}>
         <Text style={styles.headingText}>{searchKey}</Text>
         <Image
@@ -83,17 +83,17 @@ function HomeScreen({navigation, route, searchKey}: any) {
         </View>
         <Button
           icon={
-            <EntypoIcon
-              name="mail"
+            <AntDesign
+              name="form"
               size={24}
               color={'white'}
               style={{marginLeft: 10}}
             />
           }
-          title="Connect"
+          title="Register"
           iconRight
           buttonStyle={{backgroundColor: 'blue', margin: 22}}
-          onPress={() => navigation.navigate('Connect')}
+          onPress={() => navigation.navigate('Register')}
         />
       </View>
       {isLoad && (
@@ -112,7 +112,7 @@ function HomeScreen({navigation, route, searchKey}: any) {
           </View>
         </View>
       )}
-    </>
+    </View>
   );
 }
 
