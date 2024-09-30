@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, TextInput, StyleSheet, SafeAreaView} from 'react-native';
 import {Button} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
-import {AntDesign} from 'react-native-vector-icons/AntDesign';
+//import {AntDesign} from 'react-native-vector-icons/AntDesign';
 
 class RegisterComponent extends Component {
   constructor(props) {
@@ -33,8 +33,31 @@ class RegisterComponent extends Component {
     this.setState(prevState => ({isAgree: !prevState.isAgree}));
   };
 
+  callRegisterApi = async () => {
+    const url = 'http://192.168.1.6:3000/register/';
+    try {
+      let response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(this.state),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      result = await response.json();
+      if (result) {
+        console.info('Registration successful:', result);
+        this.setState(prevState => ({isPressed: !prevState.isPressed}));
+      } else {
+        console.error('Registration failed: No result returned');
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   handleRegister = () => {
-    this.setState(prevState => ({isPressed: !prevState.isPressed}));
+    this.callRegisterApi();
   };
 
   render() {
@@ -43,10 +66,6 @@ class RegisterComponent extends Component {
         <Text style={styles.heading}>
           Please fill out the form below to create your account.
         </Text>
-        {this.state.isPressed && (
-          <Text>{JSON.stringify(this.state, null, 2)}</Text>
-        )}
-
         <View style={styles.formContainer}>
           <TextInput
             style={styles.textInput}
@@ -128,6 +147,9 @@ class RegisterComponent extends Component {
             onPress={this.handleRegister}
           />
         </View>
+        {this.state.isPressed && (
+          <Text style={styles.successMsg}>User Registered Successfully!</Text>
+        )}
       </SafeAreaView>
     );
   }
@@ -145,6 +167,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     color: 'black',
     fontWeight: '500',
+  },
+  successMsg: {
+    fontSize: 20,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 8,
+    color: 'green',
+    fontWeight: '600',
+    textAlign: 'center',
   },
   formContainer: {
     paddingHorizontal: 16,
