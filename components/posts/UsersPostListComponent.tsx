@@ -15,7 +15,7 @@ const CustomList = () => {
   const [posts, setPosts] = useState([]);
 
   const callApi = async () => {
-    const url = 'https://jsonplaceholder.typicode.com/todos/';
+    const url = 'http://192.168.1.5:3000/todos/';
     try {
       let response = await fetch(url);
       if (!response.ok) {
@@ -63,7 +63,7 @@ const FlatListComponent = () => {
   const [posts, setPosts] = useState([]);
 
   const callApi = async () => {
-    const url = 'https://jsonplaceholder.typicode.com/posts/';
+    const url = 'http://192.168.1.5:3000/posts/';
     try {
       let response = await fetch(url);
       if (!response.ok) {

@@ -81,3 +81,8 @@ To learn more about React Native, take a look at the following resources:
 ## To get an plaform related info, use below code line
 
 - {JSON.stringify(Platform)}
+
+## For JSON SERVER
+
+- npm install -g json-server
+- json-server --watch db.json
