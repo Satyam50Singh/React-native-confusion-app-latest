@@ -13,6 +13,7 @@ import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
 import GmailTopNavigation from './components/GmailTopNavigation';
 import UserPostList from './components/posts/UsersPostListComponent';
 import RegisterComponent from './components/RegisterComponent';
+import UsersList from './components/UsersListComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -120,6 +121,11 @@ function App() {
             name="usersPosts"
             component={UserPostList}
             options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="usersList"
+            component={UsersList}
+            options={{title: 'Users List'}}
           />
         </Stack.Navigator>
       </NavigationContainer>

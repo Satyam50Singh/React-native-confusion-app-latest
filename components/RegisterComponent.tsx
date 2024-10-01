@@ -46,6 +46,7 @@ class RegisterComponent extends Component {
       isFemale: gender === 'female' ? !prevState.isFemale : false,
       isOthers: gender === 'others' ? !prevState.isOthers : false,
     }));
+    this.setState({genderError: false});
   };
 
   toggleAgree = () => {
@@ -80,7 +81,7 @@ class RegisterComponent extends Component {
         console.info('Registration successful:', result);
         this.setState(prevState => ({isPressed: !prevState.isPressed}));
         setTimeout(() => {
-          this.props.navigation.navigate('Home');
+          this.props.navigation.navigate('usersList');
         }, 3000);
       } else {
         console.error('Registration failed: No result returned');
@@ -144,6 +145,7 @@ class RegisterComponent extends Component {
 
     if (!this.state.isAgree) {
       this.setState({isAgreeError: true});
+      return false;
     } else {
       this.setState({isAgreeError: false});
     }
