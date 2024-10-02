@@ -2,7 +2,7 @@ import React from 'react';
 import HomeScreen from './HomeComponent';
 import SectionListComponent from './SectionList';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import RegisterComponent from './RegisterComponent';
+import RegisterComponent from './auth/RegisterComponent';
 
 const Tab = createMaterialTopTabNavigator();
 

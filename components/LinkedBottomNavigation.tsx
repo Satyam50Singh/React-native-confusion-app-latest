@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeComponent';
 import SectionListComponent from './SectionList';
-import RegisterComponent from './RegisterComponent';
+import RegisterComponent from './auth/RegisterComponent';
 
 const Tab = createBottomTabNavigator();
 

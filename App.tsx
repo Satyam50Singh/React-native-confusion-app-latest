@@ -12,8 +12,8 @@ import {useState} from 'react';
 import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
 import GmailTopNavigation from './components/GmailTopNavigation';
 import UserPostList from './components/posts/UsersPostListComponent';
-import RegisterComponent from './components/RegisterComponent';
-import UsersList from './components/UsersListComponent';
+import RegisterComponent from './components/auth/RegisterComponent';
+import UsersList from './components/auth/UsersListComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,7 +61,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Register">
+        <Stack.Navigator initialRouteName="usersList">
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
@@ -125,7 +125,13 @@ function App() {
           <Stack.Screen
             name="usersList"
             component={UsersList}
-            options={{title: 'Users List'}}
+            options={{
+              headerTintColor: 'white',
+              title: 'Users List',
+              headerStyle: {
+                backgroundColor: 'blue',
+              },
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
