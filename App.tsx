@@ -61,7 +61,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="usersList">
+        <Stack.Navigator initialRouteName="Register">
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
