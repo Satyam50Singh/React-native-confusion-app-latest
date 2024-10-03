@@ -3,6 +3,7 @@ import {Text, View, TextInput, StyleSheet, SafeAreaView} from 'react-native';
 import {Button} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 //import {AntDesign} from 'react-native-vector-icons/AntDesign';
+import {storeData} from './../../utils/AsyncStorageUtils';
 
 const AgreeCheckBox = () => {
   return (
@@ -54,7 +55,7 @@ class RegisterComponent extends Component {
   };
 
   callRegisterApi = async () => {
-    const url = 'http://192.168.1.2:3000/register/';
+    const url = 'http://192.168.1.4:3000/register/';
     try {
       const reqBody = {
         name: this.state.name,
@@ -80,6 +81,7 @@ class RegisterComponent extends Component {
       if (result) {
         console.info('Registration successful:', result);
         this.setState(prevState => ({isPressed: !prevState.isPressed}));
+        storeData('token', reqBody.email + '$$' + reqBody.password);
         setTimeout(() => {
           this.props.navigation.navigate('usersList');
         }, 3000);

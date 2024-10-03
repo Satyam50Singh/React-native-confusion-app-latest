@@ -8,12 +8,13 @@ import DetailsScreen from './components/UserDetailComponent';
 import ExperienceComponent from './components/ExperienceComponent';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import LinkedInBottomNavigation from './components/LinkedBottomNavigation';
 import GmailTopNavigation from './components/GmailTopNavigation';
 import UserPostList from './components/posts/UsersPostListComponent';
 import RegisterComponent from './components/auth/RegisterComponent';
 import UsersList from './components/auth/UsersListComponent';
+import {getData} from './utils/AsyncStorageUtils';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +53,34 @@ const RightHeader = props => {
 
 function App() {
   const [searchKey, setSearchKey] = useState('');
+  const [token, setToken] = useState('');
+  const [loading, setLoading] = useState(true);
 
+  const fetchToken = async () => {
+    const val = await getData('token');
+    setToken(val);
+    setLoading(false);
+    console.info(val);
+  };
+
+  useEffect(() => {
+    fetchToken();
+  }, []);
+
+  if (loading) {
+    // Render a loading indicator while fetching the token
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+          fontSize: 16,
+        }}>
+        <Text>Confusion App</Text>
+      </View>
+    ); // Replace this with a proper loading component if needed
+  }
   return (
     <>
       <StatusBar
@@ -61,7 +89,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="usersList">
+        <Stack.Navigator initialRouteName={token ? 'usersList' : 'Register'}>
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
