@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Text, View, Modal, TextInput} from 'react-native';
 import {Button} from 'react-native-elements';
 
@@ -6,6 +6,8 @@ export default EditUserModal = props => {
   const [name, setName] = useState(props.selectedUser.name || '');
   const [email, setEmail] = useState(props.selectedUser.email || '');
   const [password, setPassword] = useState(props.selectedUser.password || '');
+
+  const emailRef = useRef();
 
   const callEditApi = async selectedUser => {
     const url = 'http://192.168.1.4:3000/register';
@@ -43,16 +45,25 @@ export default EditUserModal = props => {
         <View style={styles.modalContent}>
           <Text style={styles.titleEditUser}>Edit User</Text>
           <TextInput
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              {borderColor: name.length === 0 ? 'red' : 'gray'},
+            ]} // Change border color based on name input
             placeholder="Full Name:"
             value={name}
-            onChangeText={text => setName(text)}
+            onChangeText={text => {
+              setName(text);
+            }}
+            onSubmitEditing={() => {
+              emailRef.current.focus();
+            }}
           />
           <TextInput
             style={styles.textInput}
             placeholder="Email Id:"
             keyboardType="email-address"
             value={email}
+            ref={emailRef}
             onChangeText={text => setEmail(text)}
           />
           <TextInput
