@@ -54,7 +54,7 @@ class RegisterComponent extends Component {
   };
 
   callRegisterApi = async () => {
-    const url = 'http://192.168.1.4:3000/register/';
+    const url = 'http://192.168.1.2:3000/register/';
     try {
       const reqBody = {
         name: this.state.name,

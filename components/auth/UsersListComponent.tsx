@@ -11,6 +11,37 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Feather from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-elements';
 
+const SearchBar = props => {
+  const [searchText, setSearchText] = useState('');
+
+  const filterUsers = async text => {
+    console.info('text.length', text.length);
+    console.info(props.data);
+    setSearchText(text);
+    if (text.length > 2) {
+      const filteredData = props.data.filter(item => {
+        return item.name.toLowerCase().includes(text.toLowerCase());
+      });
+      props.onSearch(filteredData);
+    } else {
+      props.onSearch(props.data);
+    }
+  };
+
+  return (
+    <View>
+      <TextInput
+        style={styles.textSearchInput}
+        placeholder="Search User"
+        value={searchText} // Set the value from state
+        onChangeText={text => {
+          filterUsers(text);
+        }}
+      />
+    </View>
+  );
+};
+
 const DeleteModal = props => {
   const callDeleteApi = async () => {
     const url = 'http://192.168.1.4:3000/register';
@@ -147,6 +178,7 @@ const EditUserModal = props => {
 };
 const UsersList = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState('');
@@ -160,6 +192,7 @@ const UsersList = () => {
       }
       const result = await response.json();
       setUsers(result);
+      setFilteredUsers(result);
     } catch (err) {
       console.error(err.message); // Set error message in state
     }
@@ -178,43 +211,49 @@ const UsersList = () => {
     callUsersApi();
   }, [showDelete, showEditModal]);
 
+  //  useEffect(() => {}, [users]);
+
   return (
     <View>
-      {users.length
-        ? users.map(item => {
+      <SearchBar
+        onSearch={data => {
+          setFilteredUsers(data);
+        }}
+        data={users}
+      />
+      {filteredUsers.length
+        ? filteredUsers.map(item => {
             return (
-              <>
-                <View style={styles.container} key={item.id}>
-                  <View style={styles.innerContainer}>
-                    <View style={styles.flexBox}>
-                      <Text style={[styles.textStyle, styles.emailFlex]}>
-                        Name: {item.name}
-                      </Text>
-                      <Text style={[styles.textStyle, styles.passwordFlex]}>
-                        Designation: {item.designation}
-                      </Text>
-                    </View>
-                    <View style={styles.iconContainer}>
-                      <Pressable onPress={() => handleEdit(item)}>
-                        <Feather
-                          name="edit"
-                          size={26}
-                          color="green"
-                          style={styles.editIconStyle}
-                        />
-                      </Pressable>
-                      <Pressable onPress={() => handleDelete(item.id)}>
-                        <MaterialCommunityIcons
-                          name="delete"
-                          size={26}
-                          color="red"
-                        />
-                      </Pressable>
-                    </View>
+              <View style={styles.container} key={item.id}>
+                <View style={styles.innerContainer}>
+                  <View style={styles.flexBox}>
+                    <Text style={[styles.textStyle, styles.emailFlex]}>
+                      Name: {item.name}
+                    </Text>
+                    <Text style={[styles.textStyle, styles.passwordFlex]}>
+                      Designation: {item.designation}
+                    </Text>
                   </View>
-                  <Text style={[styles.textStyle]}>Email: {item.email}</Text>
+                  <View style={styles.iconContainer}>
+                    <Pressable onPress={() => handleEdit(item)}>
+                      <Feather
+                        name="edit"
+                        size={26}
+                        color="green"
+                        style={styles.editIconStyle}
+                      />
+                    </Pressable>
+                    <Pressable onPress={() => handleDelete(item.id)}>
+                      <MaterialCommunityIcons
+                        name="delete"
+                        size={26}
+                        color="red"
+                      />
+                    </Pressable>
+                  </View>
                 </View>
-              </>
+                <Text style={[styles.textStyle]}>Email: {item.email}</Text>
+              </View>
             );
           })
         : null}
@@ -308,6 +347,14 @@ const styles = StyleSheet.create({
     borderColor: 'blue',
     marginBottom: 4,
     marginTop: 4,
+    padding: 8,
+  },
+  textSearchInput: {
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: 'blue',
+    marginBottom: 4,
+    margin: 18,
     padding: 8,
   },
 });
