@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {addToCart} from './../action';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useSelector} from 'react-redux';
 
 const Product = () => {
+  const [addedItems, setAddedItems] = useState({});
   const products = [
     {
       id: 'P0001',
@@ -46,6 +49,24 @@ const Product = () => {
   ];
 
   const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.reducer);
+
+  useEffect(() => {
+    if (cartItems && cartItems.length) {
+      const updatedItems = {};
+
+      cartItems.forEach(element => {
+        updatedItems[element.id] = true; // Mark items as added
+      });
+
+      // Merge new state with previous state
+      setAddedItems(prevState => ({
+        ...prevState,
+        ...updatedItems,
+      }));
+    }
+    console.info(addedItems);
+  }, [cartItems]);
 
   const handleAddToCart = item => {
     dispatch(addToCart(item));
@@ -66,6 +87,15 @@ const Product = () => {
                   title="Add to Cart"
                   buttonStyle={styles.cartButtonStyle}
                   onPress={() => handleAddToCart(item)}
+                  iconRight
+                  icon={
+                    <FontAwesome
+                      name={addedItems[item.id] ? 'heart' : 'heart-o'}
+                      size={20}
+                      color="white"
+                      style={styles.iconStyle}
+                    />
+                  }
                 />
               </View>
               <Image
@@ -112,8 +142,9 @@ const styles = StyleSheet.create({
   productImage: {width: 90, height: 120},
   cartButtonStyle: {
     marginTop: 16,
-    width: '40%',
+    width: '50%',
   },
+  iconStyle: {marginLeft: 8},
 });
 
 export default Product;
