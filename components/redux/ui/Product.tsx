@@ -2,6 +2,8 @@ import React from 'react';
 
 import {View, ScrollView, Text, StyleSheet, Image} from 'react-native';
 import {Button} from 'react-native-elements';
+import {useDispatch} from 'react-redux';
+import {addToCart} from './../action';
 
 const Product = () => {
   const products = [
@@ -43,6 +45,12 @@ const Product = () => {
     },
   ];
 
+  const dispatch = useDispatch();
+
+  const handleAddToCart = item => {
+    dispatch(addToCart(item));
+  };
+
   return (
     <View>
       <ScrollView>
@@ -58,6 +66,7 @@ const Product = () => {
                   <Button
                     title="Add to Cart"
                     buttonStyle={styles.cartButtonStyle}
+                    onPress={() => handleAddToCart(item)}
                   />
                 </View>
                 <Image

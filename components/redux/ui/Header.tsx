@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>Welcome User</Text>
+      <Text style={styles.textStyle}>Mobile Phones</Text>
       <Text style={styles.textStyle}>{count}</Text>
     </View>
   );
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     fontSize: 18,
+    fontWeight: '500',
   },
 });
 export default Header;
