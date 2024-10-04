@@ -86,3 +86,9 @@ To learn more about React Native, take a look at the following resources:
 
 - npm install -g json-server
 - json-server --watch db.json
+
+## For Redux
+
+- npm install redux
+- npm install react-redux
+- npm install @reduxjs/toolkit

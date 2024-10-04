@@ -15,6 +15,7 @@ import UserPostList from './components/posts/UsersPostListComponent';
 import RegisterComponent from './components/auth/RegisterComponent';
 import UsersList from './components/auth/UsersListComponent';
 import {getData} from './utils/AsyncStorageUtils';
+import MainComponent from './components/redux/ui/MainComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -89,7 +90,8 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={token ? 'usersList' : 'Register'}>
+        <Stack.Navigator
+          initialRouteName={token ? 'main_component' : 'Register'}>
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
@@ -159,6 +161,13 @@ function App() {
               headerStyle: {
                 backgroundColor: 'blue',
               },
+            }}
+          />
+          <Stack.Screen
+            name="main_component"
+            component={MainComponent}
+            options={{
+              headerShown: false,
             }}
           />
         </Stack.Navigator>
