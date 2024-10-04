@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {View, ScrollView, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {addToCart} from './../action';
@@ -52,34 +52,32 @@ const Product = () => {
   };
 
   return (
-    <View>
-      <ScrollView>
-        {products
-          ? products.map(item => (
-              <View key={item.id} style={styles.productContainer}>
-                <View style={styles.innerContainer}>
-                  <Text style={styles.productTitle}>{item.name}</Text>
-                  <Text style={styles.productPrice}>
-                    ₹ {item.price} + deliver
-                  </Text>
-                  <Text style={styles.productDesc}>{item.description}</Text>
-                  <Button
-                    title="Add to Cart"
-                    buttonStyle={styles.cartButtonStyle}
-                    onPress={() => handleAddToCart(item)}
-                  />
-                </View>
-                <Image
-                  source={{
-                    uri: item.imageUrl,
-                  }}
-                  style={styles.productImage}
+    <SafeAreaView>
+      {products
+        ? products.map(item => (
+            <View key={item.id} style={styles.productContainer}>
+              <View style={styles.innerContainer}>
+                <Text style={styles.productTitle}>{item.name}</Text>
+                <Text style={styles.productPrice}>
+                  ₹ {item.price} + deliver
+                </Text>
+                <Text style={styles.productDesc}>{item.description}</Text>
+                <Button
+                  title="Add to Cart"
+                  buttonStyle={styles.cartButtonStyle}
+                  onPress={() => handleAddToCart(item)}
                 />
               </View>
-            ))
-          : null}
-      </ScrollView>
-    </View>
+              <Image
+                source={{
+                  uri: item.imageUrl,
+                }}
+                style={styles.productImage}
+              />
+            </View>
+          ))
+        : null}
+    </SafeAreaView>
   );
 };
 

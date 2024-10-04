@@ -1,8 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
 import {View, Text, StyleSheet} from 'react-native';
 const Header = () => {
   const [count, setCount] = useState(0);
+
+  const cartItems = useSelector(state => state.reducer);
+
+  useEffect(() => {
+    console.warn(cartItems);
+    setCount(cartItems.length);
+  }, [cartItems]);
 
   return (
     <View style={styles.container}>
