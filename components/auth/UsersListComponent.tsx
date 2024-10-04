@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, Pressable} from 'react-native';
+import {Text, View, Pressable, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './users/UserStyles';
@@ -17,7 +17,7 @@ const UsersList = () => {
 
   const callUsersApi = async () => {
     try {
-      const url = 'http://192.168.1.4:3000/register/';
+      const url = 'http://192.168.55.15:3000/register/';
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -51,42 +51,44 @@ const UsersList = () => {
         }}
         data={users}
       />
-      {filteredUsers.length
-        ? filteredUsers.map(item => {
-            return (
-              <View style={styles.container} key={item.id}>
-                <View style={styles.innerContainer}>
-                  <View style={styles.flexBox}>
-                    <Text style={[styles.textStyle, styles.emailFlex]}>
-                      Name: {item.name}
-                    </Text>
-                    <Text style={[styles.textStyle, styles.passwordFlex]}>
-                      Designation: {item.designation}
-                    </Text>
+      <ScrollView>
+        {filteredUsers.length
+          ? filteredUsers.map(item => {
+              return (
+                <View style={styles.container} key={item.id}>
+                  <View style={styles.innerContainer}>
+                    <View style={styles.flexBox}>
+                      <Text style={[styles.textStyle, styles.emailFlex]}>
+                        Name: {item.name}
+                      </Text>
+                      <Text style={[styles.textStyle, styles.passwordFlex]}>
+                        Designation: {item.designation}
+                      </Text>
+                    </View>
+                    <View style={styles.iconContainer}>
+                      <Pressable onPress={() => handleEdit(item)}>
+                        <Feather
+                          name="edit"
+                          size={26}
+                          color="green"
+                          style={styles.editIconStyle}
+                        />
+                      </Pressable>
+                      <Pressable onPress={() => handleDelete(item.id)}>
+                        <MaterialCommunityIcons
+                          name="delete"
+                          size={26}
+                          color="red"
+                        />
+                      </Pressable>
+                    </View>
                   </View>
-                  <View style={styles.iconContainer}>
-                    <Pressable onPress={() => handleEdit(item)}>
-                      <Feather
-                        name="edit"
-                        size={26}
-                        color="green"
-                        style={styles.editIconStyle}
-                      />
-                    </Pressable>
-                    <Pressable onPress={() => handleDelete(item.id)}>
-                      <MaterialCommunityIcons
-                        name="delete"
-                        size={26}
-                        color="red"
-                      />
-                    </Pressable>
-                  </View>
+                  <Text style={[styles.textStyle]}>Email: {item.email}</Text>
                 </View>
-                <Text style={[styles.textStyle]}>Email: {item.email}</Text>
-              </View>
-            );
-          })
-        : null}
+              );
+            })
+          : null}
+      </ScrollView>
 
       <DeleteModal
         visible={showDelete}

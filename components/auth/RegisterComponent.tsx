@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Text, View, TextInput, StyleSheet, SafeAreaView} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 //import {AntDesign} from 'react-native-vector-icons/AntDesign';
@@ -166,138 +173,140 @@ class RegisterComponent extends Component {
         <Text style={styles.heading}>
           Please fill out the form below to create your account.
         </Text>
-        <View style={styles.formContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Full Name:"
-            value={this.state.name}
-            onChangeText={text =>
-              this.setState({name: text, nameError: text === ''})
-            }
-          />
-          {this.state.nameError ? (
-            <Text style={styles.errorText}> Please enter full name.</Text>
-          ) : null}
-          <TextInput
-            style={styles.textInput}
-            placeholder="Designation:"
-            value={this.state.designation}
-            onChangeText={text =>
-              this.setState({
-                designation: text,
-                designationError: text === '',
-              })
-            }
-          />
-          {this.state.designationError ? (
-            <Text style={styles.errorText}> Please enter designation.</Text>
-          ) : null}
-          <TextInput
-            style={styles.textInput}
-            placeholder="Email Id:"
-            value={this.state.email}
-            keyboardType="email-address"
-            onChangeText={text =>
-              this.setState({email: text, emailError: text === ''})
-            }
-          />
-          {this.state.emailError ? (
-            <Text style={styles.errorText}> Please enter email.</Text>
-          ) : null}
-          {this.state.emailValidError ? (
-            <Text style={styles.errorText}> Please enter valid email.</Text>
-          ) : null}
-          <TextInput
-            style={styles.textInput}
-            placeholder="Mobile Number:"
-            keyboardType="phone-pad"
-            value={this.state.mobile}
-            maxLength={10}
-            onChangeText={text => {
-              const numericText = text.replace(/[^0-9]/g, ''); // Allow only numeric input
-              this.setState({mobile: numericText, mobileError: text === ''});
-            }}
-          />
-          {this.state.mobileError ? (
-            <Text style={styles.errorText}> Please enter mobile number.</Text>
-          ) : null}
-          {this.state.mobileLengthError ? (
-            <Text style={styles.errorText}>
-              Mobile number must be 10 digits.
-            </Text>
-          ) : null}
-          <TextInput
-            style={styles.textInput}
-            placeholder="Password:"
-            value={this.state.password}
-            secureTextEntry
-            maxLength={6}
-            onChangeText={text =>
-              this.setState({password: text, passwordError: text === ''})
-            }
-          />
-          {this.state.passwordError ? (
-            <Text style={styles.errorText}> Please enter password.</Text>
-          ) : null}
-          {this.state.passwordLengthError ? (
-            <Text style={styles.errorText}> Password must be 6 digits.</Text>
-          ) : null}
-          <View style={styles.checkboxContainer}>
-            <Text style={styles.genderLabel}>Gender:</Text>
-            <CheckBox
-              style={styles.checkbox}
-              onClick={() => this.handleGenderChange('male')}
-              isChecked={this.state.isMale}
-              rightText="Male"
+        <ScrollView>
+          <View style={styles.formContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Full Name:"
+              value={this.state.name}
+              onChangeText={text =>
+                this.setState({name: text, nameError: text === ''})
+              }
             />
-            <CheckBox
-              style={styles.checkbox}
-              onClick={() => this.handleGenderChange('female')}
-              isChecked={this.state.isFemale}
-              rightText="Female"
+            {this.state.nameError ? (
+              <Text style={styles.errorText}> Please enter full name.</Text>
+            ) : null}
+            <TextInput
+              style={styles.textInput}
+              placeholder="Designation:"
+              value={this.state.designation}
+              onChangeText={text =>
+                this.setState({
+                  designation: text,
+                  designationError: text === '',
+                })
+              }
             />
+            {this.state.designationError ? (
+              <Text style={styles.errorText}> Please enter designation.</Text>
+            ) : null}
+            <TextInput
+              style={styles.textInput}
+              placeholder="Email Id:"
+              value={this.state.email}
+              keyboardType="email-address"
+              onChangeText={text =>
+                this.setState({email: text, emailError: text === ''})
+              }
+            />
+            {this.state.emailError ? (
+              <Text style={styles.errorText}> Please enter email.</Text>
+            ) : null}
+            {this.state.emailValidError ? (
+              <Text style={styles.errorText}> Please enter valid email.</Text>
+            ) : null}
+            <TextInput
+              style={styles.textInput}
+              placeholder="Mobile Number:"
+              keyboardType="phone-pad"
+              value={this.state.mobile}
+              maxLength={10}
+              onChangeText={text => {
+                const numericText = text.replace(/[^0-9]/g, ''); // Allow only numeric input
+                this.setState({mobile: numericText, mobileError: text === ''});
+              }}
+            />
+            {this.state.mobileError ? (
+              <Text style={styles.errorText}> Please enter mobile number.</Text>
+            ) : null}
+            {this.state.mobileLengthError ? (
+              <Text style={styles.errorText}>
+                Mobile number must be 10 digits.
+              </Text>
+            ) : null}
+            <TextInput
+              style={styles.textInput}
+              placeholder="Password:"
+              value={this.state.password}
+              secureTextEntry
+              maxLength={6}
+              onChangeText={text =>
+                this.setState({password: text, passwordError: text === ''})
+              }
+            />
+            {this.state.passwordError ? (
+              <Text style={styles.errorText}> Please enter password.</Text>
+            ) : null}
+            {this.state.passwordLengthError ? (
+              <Text style={styles.errorText}> Password must be 6 digits.</Text>
+            ) : null}
+            <View style={styles.checkboxContainer}>
+              <Text style={styles.genderLabel}>Gender:</Text>
+              <CheckBox
+                style={styles.checkbox}
+                onClick={() => this.handleGenderChange('male')}
+                isChecked={this.state.isMale}
+                rightText="Male"
+              />
+              <CheckBox
+                style={styles.checkbox}
+                onClick={() => this.handleGenderChange('female')}
+                isChecked={this.state.isFemale}
+                rightText="Female"
+              />
+              <CheckBox
+                style={styles.checkbox}
+                onClick={() => this.handleGenderChange('others')}
+                isChecked={this.state.isOthers}
+                rightText="Others"
+              />
+            </View>
+            {this.state.genderError ? (
+              <Text style={styles.errorText}> Please choose gender.</Text>
+            ) : null}
+
             <CheckBox
-              style={styles.checkbox}
-              onClick={() => this.handleGenderChange('others')}
-              isChecked={this.state.isOthers}
-              rightText="Others"
+              style={styles.agreeCheckbox}
+              onClick={this.toggleAgree}
+              isChecked={this.state.isAgree}
+              rightTextView={<AgreeCheckBox />}
+            />
+            {this.state.isAgreeError ? (
+              <Text style={styles.errorText}>
+                {' '}
+                Please check terms and conditions checkbox.
+              </Text>
+            ) : null}
+
+            <Button
+              title="Register"
+              // icon={
+              //   <AntDesign
+              //     name="form"
+              //     size={24}
+              //     color="white"
+              //     style={styles.iconStyle}
+              //   />
+              // }
+              iconRight
+              buttonStyle={styles.registerButton}
+              onPress={this.handleRegister}
             />
           </View>
-          {this.state.genderError ? (
-            <Text style={styles.errorText}> Please choose gender.</Text>
-          ) : null}
-
-          <CheckBox
-            style={styles.agreeCheckbox}
-            onClick={this.toggleAgree}
-            isChecked={this.state.isAgree}
-            rightTextView={<AgreeCheckBox />}
-          />
-          {this.state.isAgreeError ? (
-            <Text style={styles.errorText}>
-              {' '}
-              Please check terms and conditions checkbox.
-            </Text>
-          ) : null}
-
-          <Button
-            title="Register"
-            // icon={
-            //   <AntDesign
-            //     name="form"
-            //     size={24}
-            //     color="white"
-            //     style={styles.iconStyle}
-            //   />
-            // }
-            iconRight
-            buttonStyle={styles.registerButton}
-            onPress={this.handleRegister}
-          />
-        </View>
-        {this.state.isPressed && (
-          <Text style={styles.successMsg}>User Registered Successfully!</Text>
-        )}
+          {this.state.isPressed && (
+            <Text style={styles.successMsg}>User Registered Successfully!</Text>
+          )}
+        </ScrollView>
       </SafeAreaView>
     );
   }
