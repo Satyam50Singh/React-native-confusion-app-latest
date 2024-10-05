@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {addToCart} from './../action';
+import {addToCart, removeFromCart} from './../action';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSelector} from 'react-redux';
 
@@ -52,24 +52,23 @@ const Product = () => {
   const cartItems = useSelector(state => state.reducer);
 
   useEffect(() => {
-    if (cartItems && cartItems.length) {
-      const updatedItems = {};
+    let updatedItems = {};
 
+    if (cartItems && cartItems.length) {
       cartItems.forEach(element => {
         updatedItems[element.id] = true; // Mark items as added
       });
-
-      // Merge new state with previous state
-      setAddedItems(prevState => ({
-        ...prevState,
-        ...updatedItems,
-      }));
     }
-    console.info(addedItems);
+
+    setAddedItems(updatedItems);
   }, [cartItems]);
 
   const handleAddToCart = item => {
     dispatch(addToCart(item));
+  };
+
+  const handleRemoveFromCart = item => {
+    dispatch(removeFromCart(item));
   };
 
   return (
@@ -83,27 +82,30 @@ const Product = () => {
                   ₹ {item.price} + deliver
                 </Text>
                 <Text style={styles.productDesc}>{item.description}</Text>
+              </View>
+              <View>
                 <Button
-                  title="Add to Cart"
-                  buttonStyle={styles.cartButtonStyle}
-                  onPress={() => handleAddToCart(item)}
+                  onPress={() =>
+                    addedItems[item.id]
+                      ? handleRemoveFromCart(item)
+                      : handleAddToCart(item)
+                  }
                   iconRight
                   icon={
                     <FontAwesome
                       name={addedItems[item.id] ? 'heart' : 'heart-o'}
                       size={20}
                       color="white"
-                      style={styles.iconStyle}
                     />
                   }
                 />
+                <Image
+                  source={{
+                    uri: item.imageUrl,
+                  }}
+                  style={styles.productImage}
+                />
               </View>
-              <Image
-                source={{
-                  uri: item.imageUrl,
-                }}
-                style={styles.productImage}
-              />
             </View>
           ))
         : null}
@@ -139,12 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: 'black',
   },
-  productImage: {width: 90, height: 120},
-  cartButtonStyle: {
-    marginTop: 16,
-    width: '50%',
-  },
-  iconStyle: {marginLeft: 8},
+  productImage: {width: 90, height: 120, marginTop: 8},
 });
 
 export default Product;
