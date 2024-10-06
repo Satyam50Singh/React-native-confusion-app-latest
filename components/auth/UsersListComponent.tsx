@@ -6,29 +6,19 @@ import styles from './users/UserStyles';
 import DeleteModal from './users/DeleteUserModal';
 import EditUserModal from './users/EditUserModal';
 import SearchBar from './users/SearchUser';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchUserList} from './../redux/action';
 
 const UsersList = () => {
-  const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [showDelete, setShowDelete] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedItem, setSelectedItem] = useState([]);
 
-  const callUsersApi = async () => {
-    try {
-      const url = 'http://192.168.55.15:3000/register/';
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const result = await response.json();
-      setUsers(result);
-      setFilteredUsers(result);
-    } catch (err) {
-      console.error(err.message); // Set error message in state
-    }
-  };
+  const users = useSelector(state => state.reducer);
+  const dispatch = useDispatch();
+  console.log('Data received', users);
 
   const handleEdit = item => {
     setShowEditModal(true);
@@ -40,8 +30,14 @@ const UsersList = () => {
   };
 
   useEffect(() => {
-    callUsersApi();
-  }, [showDelete, showEditModal]);
+    dispatch(fetchUserList());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, [users]); // Update filteredUsers only when users changes
+
+  useEffect(() => {}, [showDelete, showEditModal]);
 
   return (
     <View>

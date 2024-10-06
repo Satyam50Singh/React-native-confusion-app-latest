@@ -90,8 +90,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={token ? 'main_component' : 'Register'}>
+        <Stack.Navigator initialRouteName={token ? 'usersList' : 'Register'}>
           <Stack.Screen
             name="Home"
             initialParams={{searchKey}}
