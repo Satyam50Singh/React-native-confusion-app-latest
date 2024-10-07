@@ -16,6 +16,7 @@ export default function LinkedInBottomNavigation() {
           headerStyle: {
             backgroundColor: '#27292B',
           },
+          headerShown: false,
           headerTintColor: 'white',
           headerTitleStyle: {fontSize: 20},
         }}
@@ -24,6 +25,7 @@ export default function LinkedInBottomNavigation() {
         name="MyNetwork"
         component={RegisterComponent}
         options={{
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#27292B',
           },
@@ -35,6 +37,7 @@ export default function LinkedInBottomNavigation() {
         name="Jobs"
         component={SectionListComponent}
         options={{
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#27292B',
           },

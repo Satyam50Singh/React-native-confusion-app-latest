@@ -10,7 +10,7 @@ import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
 function HomeScreen({navigation, searchKey}: any) {
   const [isLoad, setIsLoad] = useState(false);
