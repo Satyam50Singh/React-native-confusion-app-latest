@@ -6,6 +6,7 @@ import {useState, useEffect} from 'react';
 import RegisterComponent from './components/auth/RegisterComponent';
 import {getData} from './utils/AsyncStorageUtils';
 import HomeDrawerComponent from './components/HomeDrawerComponent';
+import SignInComponent from './components/auth/SignInComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,8 +47,7 @@ function App() {
         hidden={false}
       />
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={token ? 'mainComponent' : 'registerUser'}>
+        <Stack.Navigator initialRouteName={token ? 'mainComponent' : 'signIn'}>
           <Stack.Screen
             name="mainComponent"
             component={HomeDrawerComponent}
@@ -56,15 +56,17 @@ function App() {
             }}
           />
           <Stack.Screen
-            name="registerUser"
+            name="register"
             component={RegisterComponent}
             options={{
-              headerShown: true,
-              headerTintColor: 'white',
-              title: 'Register Yourself!',
-              headerStyle: {
-                backgroundColor: 'blue',
-              },
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="signIn"
+            component={SignInComponent}
+            options={{
+              headerShown: false,
             }}
           />
         </Stack.Navigator>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Text,
   View,
@@ -11,31 +10,19 @@ import {
   TextInput,
 } from 'react-native';
 
-function RegisterComponent(props) {
+function SignInComponent(props) {
   return (
     <SafeAreaView style={styles.safeareaView}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.container}>
-          <Text style={styles.headingText}>Sign Up</Text>
-          <Text style={styles.headingSmallText}>Create Your Account</Text>
+          <Text style={styles.headingText}>Welcome Back</Text>
+          <Text style={styles.headingSmallText}>
+            Enter Your Crediential for Login
+          </Text>
           <View style={styles.emptyView} />
           <View style={styles.textInputContainer}>
             <Feather name="user" size={28} />
-            <TextInput
-              placeholder="Username"
-              style={styles.textInput}
-              inputMode="text"
-            />
-          </View>
-          <View style={styles.textInputContainer}>
-            <MaterialCommunityIcons name="email-outline" size={28} />
-            <TextInput
-              placeholder="Email"
-              style={styles.textInput}
-              maxLength={40}
-              inputMode="email"
-              keyboardType="email-address"
-            />
+            <TextInput placeholder="Username" style={styles.textInput} />
           </View>
           <View style={styles.textInputContainer}>
             <Feather name="lock" size={28} />
@@ -45,29 +32,19 @@ function RegisterComponent(props) {
               style={styles.textInput}
             />
           </View>
-          <View style={styles.textInputContainer}>
-            <Feather name="lock" size={28} />
-            <TextInput
-              placeholder="Confirm Password"
-              secureTextEntry
-              style={styles.textInput}
-            />
-          </View>
           <Pressable>
             <View style={styles.btnContainer}>
-              <Text style={styles.btnText}>Sign Up</Text>
+              <Text style={styles.btnText}>Login</Text>
             </View>
           </Pressable>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           <View style={styles.bottomContainer}>
-            <View style={styles.bottomTextContainer}>
-              <Text style={styles.bottomText}>Don't have an account?</Text>
-              <Pressable
-                style={styles.loginText}
-                onPress={() => props.navigation.navigate('signIn')}>
-                <Text style={styles.bottomTextSignUp}> Login</Text>
+            <Text style={styles.bottomText}>
+              Don't have an account?{' '}
+              <Pressable onPress={() => props.navigation.navigate('register')}>
+                <Text style={styles.bottomTextSignUp}>Sign Up</Text>
               </Pressable>
-            </View>
+            </Text>
             <View style={styles.bottomLineContainer}>
               <View style={styles.bottomLineInner} />
               <View style={styles.bottomLineInner2} />
@@ -93,9 +70,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headingText: {
+    color: 'black',
     fontSize: 42,
     fontWeight: '800',
-    color: 'black',
     textAlign: 'center',
   },
   headingSmallText: {
@@ -139,14 +116,9 @@ const styles = StyleSheet.create({
     color: '#E8471C',
   },
   bottomContainer: {
+    marginTop: '6%',
     justifyContent: 'center',
     alignItems: 'bottom',
-  },
-  bottomTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
   },
   bottomText: {
     marginVertical: 4,
@@ -174,7 +146,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8471C',
     alignItems: 'right',
   },
-  loginText: {marginHorizontal: 4},
 });
 
-export default RegisterComponent;
+export default SignInComponent;
