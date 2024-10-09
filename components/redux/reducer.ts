@@ -5,6 +5,8 @@ import {
   SAVE_USER_LIST_RESPONSE,
 } from './constant';
 
+import {USER_SIGN_UP_SUCCESS} from './actionTypes';
+
 export const reducer = (state = initialState, action) => {
   console.log('Action received:', action);
   switch (action.type) {
@@ -19,6 +21,10 @@ export const reducer = (state = initialState, action) => {
 
     case SAVE_USER_LIST_RESPONSE:
       return action.result;
+
+    case USER_SIGN_UP_SUCCESS:
+      console.warn(action.responseBody);
+      return action.responseBody;
 
     default:
       return state;

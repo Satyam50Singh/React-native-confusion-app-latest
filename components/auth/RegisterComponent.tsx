@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {userSignUp} from './../redux/action.ts';
 import {
   Text,
   View,
@@ -12,6 +14,41 @@ import {
 } from 'react-native';
 
 function RegisterComponent(props) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const dispatch = useDispatch();
+  const userSignUpResponse = useSelector(state => state.reducer);
+
+  useEffect(() => {
+    if (userSignUpResponse.status === 200) {
+      console.warn(userSignUpResponse.message);
+      clearFields();
+      props.navigation.navigate('mainComponent');
+    } else if (userSignUpResponse.status === 400) {
+      console.warn(userSignUpResponse.message);
+    }
+  }, [userSignUpResponse, props.navigation]);
+
+  const clearFields = () => {
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+  };
+  // dispatch signup action with payload
+  const handleSignUp = () => {
+    const requestBody = {
+      username,
+      email,
+      password,
+      confirmPassword,
+    };
+    console.warn(requestBody);
+    dispatch(userSignUp(requestBody));
+  };
+
   return (
     <SafeAreaView style={styles.safeareaView}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -25,6 +62,8 @@ function RegisterComponent(props) {
               placeholder="Username"
               style={styles.textInput}
               inputMode="text"
+              value={username}
+              onChangeText={text => setUsername(text)}
             />
           </View>
           <View style={styles.textInputContainer}>
@@ -35,6 +74,8 @@ function RegisterComponent(props) {
               maxLength={40}
               inputMode="email"
               keyboardType="email-address"
+              value={email}
+              onChangeText={text => setEmail(text)}
             />
           </View>
           <View style={styles.textInputContainer}>
@@ -43,6 +84,8 @@ function RegisterComponent(props) {
               placeholder="Password"
               secureTextEntry
               style={styles.textInput}
+              value={password}
+              onChangeText={text => setPassword(text)}
             />
           </View>
           <View style={styles.textInputContainer}>
@@ -51,9 +94,11 @@ function RegisterComponent(props) {
               placeholder="Confirm Password"
               secureTextEntry
               style={styles.textInput}
+              value={confirmPassword}
+              onChangeText={text => setConfirmPassword(text)}
             />
           </View>
-          <Pressable>
+          <Pressable onPress={handleSignUp}>
             <View style={styles.btnContainer}>
               <Text style={styles.btnText}>Sign Up</Text>
             </View>
