@@ -17,3 +17,7 @@ export const userSignUp = requestBody => ({
   type: USER_SIGN_UP,
   payload: requestBody,
 });
+
+export const resetUserSignUpResponse = () => ({
+  type: RESET_USER_SIGN_UP_RESPONSE,
+});

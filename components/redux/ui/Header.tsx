@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 const Header = () => {
   const [count, setCount] = useState(0);
 

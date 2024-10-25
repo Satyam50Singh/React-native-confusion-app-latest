@@ -1,11 +1,15 @@
-const initialState = [];
 import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   SAVE_USER_LIST_RESPONSE,
 } from './constant';
 
-import {USER_SIGN_UP_SUCCESS} from './actionTypes';
+import {
+  USER_SIGN_UP_RESPONSE,
+  RESET_USER_SIGN_UP_RESPONSE,
+} from './actionTypes';
+
+const initialState = [];
 
 export const reducer = (state = initialState, action) => {
   console.log('Action received:', action);
@@ -22,9 +26,41 @@ export const reducer = (state = initialState, action) => {
     case SAVE_USER_LIST_RESPONSE:
       return action.result;
 
-    case USER_SIGN_UP_SUCCESS:
-      console.warn(action.responseBody);
-      return action.responseBody;
+    default:
+      return state;
+  }
+};
+
+const initialUserState = {
+  successResponse: null,
+  errorResponse: null,
+};
+
+export const user = (state = initialUserState, action) => {
+  console.log('User Action received:', action);
+
+  switch (action.type) {
+    case USER_SIGN_UP_RESPONSE:
+      if (action.successResponse) {
+        return {
+          ...state,
+          successResponse: action.successResponse,
+          errorResponse: null,
+        };
+      } else {
+        return {
+          ...state,
+          errorResponse: action.errorResponse,
+          successResponse: null,
+        };
+      }
+
+    case RESET_USER_SIGN_UP_RESPONSE:
+      return {
+        ...state,
+        successResponse: null,
+        errorResponse: null,
+      };
 
     default:
       return state;

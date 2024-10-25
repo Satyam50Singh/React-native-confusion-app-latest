@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useDispatch, useSelector } from 'react-redux';
-import { userSignUp } from './../redux/action.ts';
-import { storeData } from './../../utils/AsyncStorageUtils';
+import {useDispatch, useSelector} from 'react-redux';
+import {userSignUp} from './../redux/action.ts';
+import {storeData} from './../../utils/AsyncStorageUtils';
 import {
   Text,
   View,
@@ -22,23 +22,32 @@ function RegisterComponent(props) {
   const [isRegistering, setIsRegistering] = useState(false);
 
   const dispatch = useDispatch();
-  const userSignUpResponse = useSelector(state => state.reducer);
+  const userSignUpResponse = useSelector(
+    state => state.user.successResponse || state.user.errorResponse,
+  );
 
   useEffect(() => {
-    if (isRegistering) {
-      if (userSignUpResponse.status === 200) {
-        console.warn(userSignUpResponse.message);
-        const data = userSignUpResponse.data;
-        storeData('token', data.email + '$$' + data.password);
-        clearFields();
-        props.navigation.navigate('mainComponent');
-      } else if (userSignUpResponse.status === 400) {
-        console.warn(userSignUpResponse.message);
+    console.info('isRegistering : ', isRegistering);
+    if (isRegistering === true) {
+      try {
+        if (userSignUpResponse?.status === 200) {
+          console.warn('Success message : ', userSignUpResponse.message);
+          const data = userSignUpResponse.data;
+          storeData('token', data.email + '$$' + data.password);
+          storeData('username', data.username);
+          storeData('email', data.email);
+          clearFields();
+          props.navigation.navigate('dashboard');
+        } else if (userSignUpResponse?.status === 400) {
+          console.warn('Error message : ', userSignUpResponse.message);
+        }
+        setIsRegistering(false);
+        dispatch(resetUserSignUpResponse());
+      } catch (error) {
+        console.info('error : ', error);
       }
-      // Reset isRegistering after handling the response
-      setIsRegistering(false);
     }
-  }, [userSignUpResponse, props.navigation, isRegistering]);
+  }, [userSignUpResponse, props.navigation, dispatch]);
 
   const clearFields = () => {
     setUsername('');
@@ -54,8 +63,8 @@ function RegisterComponent(props) {
       password,
       confirmPassword,
     };
-    console.warn(requestBody);
-    setIsRegistering(true); // Set to true when starting registration
+    console.info('requestBody: ', requestBody);
+    setIsRegistering(true);
     dispatch(userSignUp(requestBody));
   };
 
@@ -229,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8471C',
     alignItems: 'right',
   },
-  loginText: { marginHorizontal: 4 },
+  loginText: {marginHorizontal: 4},
 });
 
 export default RegisterComponent;

@@ -5,7 +5,7 @@ import config from './../../config';
 
 function* doFetchUserList() {
   try {
-    const url = 'http://192.168.1.2:3000/register/';
+    const url = `${config.baseURL}/register`;
     const response = yield fetch(url);
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -19,9 +19,9 @@ function* doFetchUserList() {
 }
 
 function* userSignUp(params: type) {
-  console.warn(params);
+  console.info('params: ', params);
   const url = `${config.baseURL}/users`;
-  console.info(url);
+  console.info('register url --> ', url);
   try {
     let response = yield fetch(url, {
       method: 'POST',
@@ -32,12 +32,14 @@ function* userSignUp(params: type) {
       throw new Error('Network response was not ok');
     }
     result = yield response.json();
+    console.info('result', result);
     if (result) {
       const successResponse = {
         status: 200,
         message: 'User Registered Successfully!',
         data: result,
       };
+      console.info('successResponse: ', successResponse);
       yield put({type: USER_SIGN_UP_RESPONSE, successResponse});
     } else {
       const errorResponse = {
