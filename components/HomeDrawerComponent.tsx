@@ -1,37 +1,48 @@
-import React, {useState} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import React, { useState } from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from './HomeComponent';
 import RightHeader from './HomeSearchBarComponent';
 import DetailsScreen from './UserDetailComponent';
 import UsersList from './auth/UsersListComponent';
 import MainComponent from './redux/ui/MainComponent';
-import {View, Text} from 'react-native';
 import SectionListComponent from './SectionList';
 import ExperienceComponent from './ExperienceComponent';
 import UserPostList from './posts/UsersPostListComponent';
 import LinkedInBottomNavigation from './LinkedBottomNavigation';
 import GmailTopNavigation from './GmailTopNavigation';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {
+  HomeIcon,
+  HomeHeaderTitle,
+  UserProfileIcon,
+  ViewUserListIcon,
+  BuyProductIcon,
+  MySkillsIcon,
+  ExperienceIcon,
+  ReadPostIcon,
+} from './../utils/DrawerUtils';
 
 export default function HomeDrawerComponent() {
   const [searchKey, setSearchKey] = useState('');
 
   const Drawer = createDrawerNavigator();
+
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
+      screenOptions={{
+        drawerActiveBackgroundColor: '#ffe5e5', // Background color for selected item
+        drawerActiveTintColor: '#E8471C', // Text color for selected item
+        drawerInactiveTintColor: '#000',
+        headerStyle: {
+          backgroundColor: '#E8471C',
+        },
+        headerTintColor: 'white',
+        headerTitleStyle: { fontSize: 20 },
+      }}>
       <Drawer.Screen
         name="Home"
-        initialParams={{searchKey}}
+        initialParams={{ searchKey }}
         options={{
-          headerTitle: () => {
-            return (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{color: 'white', marginLeft: 8, fontSize: 18}}>
-                  User Dashboard
-                </Text>
-              </View>
-            );
-          },
+          headerTitle: <HomeHeaderTitle />,
           headerRight: () => (
             <RightHeader
               onWrite={text => {
@@ -40,27 +51,23 @@ export default function HomeDrawerComponent() {
               }}
             />
           ),
-          headerStyle: {
-            backgroundColor: '#27292B',
-          },
-          headerTintColor: 'white',
-          headerTitleStyle: {fontSize: 20},
-          drawerIcon: ({color}) => (
-            <FontAwesome name="home" size={20} color={color} />
-          ),
+          drawerIcon: ({ color }) => <HomeIcon color={color} />,
         }}>
         {props => <HomeScreen {...props} searchKey={searchKey} />}
       </Drawer.Screen>
-      <Drawer.Screen name="Profile" component={DetailsScreen} />
+      <Drawer.Screen
+        name="User Profile"
+        component={DetailsScreen}
+        options={{
+          drawerIcon: ({ color }) => <UserProfileIcon color={color} />,
+        }}
+      />
       <Drawer.Screen
         name="View User List"
         component={UsersList}
         options={{
-          headerTintColor: 'white',
-          title: 'Users List',
-          headerStyle: {
-            backgroundColor: 'blue',
-          },
+          title: 'View User List',
+          drawerIcon: ({ color }) => <ViewUserListIcon color={color} />,
         }}
       />
       <Drawer.Screen
@@ -68,6 +75,7 @@ export default function HomeDrawerComponent() {
         component={MainComponent}
         options={{
           headerShown: false,
+          drawerIcon: ({ color }) => <BuyProductIcon color={color} />,
         }}
       />
       <Drawer.Screen
@@ -75,6 +83,7 @@ export default function HomeDrawerComponent() {
         component={SectionListComponent}
         options={{
           headerShown: false,
+          drawerIcon: ({ color }) => <MySkillsIcon color={color} />,
         }}
       />
       <Drawer.Screen
@@ -82,6 +91,7 @@ export default function HomeDrawerComponent() {
         component={ExperienceComponent}
         options={{
           headerShown: false,
+          drawerIcon: ({ color }) => <ExperienceIcon color={color} />,
         }}
       />
       <Drawer.Screen
@@ -89,6 +99,7 @@ export default function HomeDrawerComponent() {
         component={UserPostList}
         options={{
           headerShown: false,
+          drawerIcon: ({ color }) => <ReadPostIcon color={color} />,
         }}
       />
       <Drawer.Screen

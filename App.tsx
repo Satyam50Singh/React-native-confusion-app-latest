@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {View, Text, StatusBar} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useState, useEffect} from 'react';
+import { View, Text, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useState, useEffect } from 'react';
 import RegisterComponent from './components/auth/RegisterComponent';
-import {getData} from './utils/AsyncStorageUtils';
+import { getData } from './utils/AsyncStorageUtils';
 import HomeDrawerComponent from './components/HomeDrawerComponent';
 import SignInComponent from './components/auth/SignInComponent';
 
@@ -33,7 +33,8 @@ function App() {
           justifyContent: 'center',
           alignItems: 'center',
           flex: 1,
-          fontSize: 16,
+          fontSize: 24,
+          fontWeight: '800',
         }}>
         <Text>Confusion App</Text>
       </View>
@@ -41,34 +42,14 @@ function App() {
   }
   return (
     <>
-      <StatusBar
-        backgroundColor="black"
-        barStyle="light-content"
-        hidden={false}
-      />
+      <StatusBar backgroundColor="#ff0000" barStyle="light-content" />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={token ? 'mainComponent' : 'signIn'}>
-          <Stack.Screen
-            name="mainComponent"
-            component={HomeDrawerComponent}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="register"
-            component={RegisterComponent}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="signIn"
-            component={SignInComponent}
-            options={{
-              headerShown: false,
-            }}
-          />
+        <Stack.Navigator
+          initialRouteName={token && token ? 'dashboard' : 'signIn'}
+          screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="dashboard" component={HomeDrawerComponent} />
+          <Stack.Screen name="register" component={RegisterComponent} />
+          <Stack.Screen name="signIn" component={SignInComponent} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

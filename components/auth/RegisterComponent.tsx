@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSignUp} from './../redux/action.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSignUp } from './../redux/action.ts';
+import { storeData } from './../../utils/AsyncStorageUtils';
 import {
   Text,
   View,
@@ -18,18 +19,26 @@ function RegisterComponent(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+
   const dispatch = useDispatch();
   const userSignUpResponse = useSelector(state => state.reducer);
 
   useEffect(() => {
-    if (userSignUpResponse.status === 200) {
-      console.warn(userSignUpResponse.message);
-      clearFields();
-      props.navigation.navigate('mainComponent');
-    } else if (userSignUpResponse.status === 400) {
-      console.warn(userSignUpResponse.message);
+    if (isRegistering) {
+      if (userSignUpResponse.status === 200) {
+        console.warn(userSignUpResponse.message);
+        const data = userSignUpResponse.data;
+        storeData('token', data.email + '$$' + data.password);
+        clearFields();
+        props.navigation.navigate('mainComponent');
+      } else if (userSignUpResponse.status === 400) {
+        console.warn(userSignUpResponse.message);
+      }
+      // Reset isRegistering after handling the response
+      setIsRegistering(false);
     }
-  }, [userSignUpResponse, props.navigation]);
+  }, [userSignUpResponse, props.navigation, isRegistering]);
 
   const clearFields = () => {
     setUsername('');
@@ -46,6 +55,7 @@ function RegisterComponent(props) {
       confirmPassword,
     };
     console.warn(requestBody);
+    setIsRegistering(true); // Set to true when starting registration
     dispatch(userSignUp(requestBody));
   };
 
@@ -219,7 +229,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8471C',
     alignItems: 'right',
   },
-  loginText: {marginHorizontal: 4},
+  loginText: { marginHorizontal: 4 },
 });
 
 export default RegisterComponent;
