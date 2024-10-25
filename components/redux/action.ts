@@ -1,5 +1,9 @@
 import {ADD_TO_CART, REMOVE_FROM_CART, FETCH_USER_LIST} from './constant';
-import {USER_SIGN_UP} from './actionTypes';
+import {
+  USER_SIGN_UP,
+  USER_SIGN_IN,
+  RESET_USER_SIGN_UP_RESPONSE,
+} from './actionTypes';
 
 export const addToCart = payload => ({
   type: ADD_TO_CART,
@@ -20,4 +24,9 @@ export const userSignUp = requestBody => ({
 
 export const resetUserSignUpResponse = () => ({
   type: RESET_USER_SIGN_UP_RESPONSE,
+});
+
+export const userSignIn = requestBody => ({
+  type: USER_SIGN_IN,
+  payload: requestBody,
 });

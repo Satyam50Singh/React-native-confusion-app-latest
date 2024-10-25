@@ -1,5 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
+import {useDispatch, useSelector} from 'react-redux';
+import {userSignIn} from './../redux/action.ts';
+import {storeData} from './../../utils/AsyncStorageUtils';
 import {
   Text,
   View,
@@ -11,6 +14,51 @@ import {
 } from 'react-native';
 
 function SignInComponent(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLogging, setIsLogging] = useState(false);
+  const userSignInResponse = useSelector(
+    state => state.user.successResponse || state.user.errorResponse,
+  );
+
+  const clearFields = () => {
+    setUsername('');
+    setPassword('');
+  };
+
+  useEffect(() => {
+    console.info('isLogging : ', isLogging);
+
+    console.info('userSignInResponse : ', userSignInResponse);
+    if (isLogging === true) {
+      try {
+        if (userSignInResponse?.status === 200) {
+          console.warn('Success message : ', userSignInResponse.message);
+          const data = userSignInResponse.data;
+          storeData('token', data.email + '$$' + data.password);
+          storeData('username', data.username);
+          storeData('email', data.email);
+          clearFields();
+          props.navigation.navigate('dashboard');
+        } else if (userSignInResponse?.status === 404) {
+          console.warn('Error message : ', userSignInResponse.message);
+        }
+        setIsLogging(false);
+      } catch (error) {
+        console.info('error : ', error);
+      }
+    }
+  }, [userSignInResponse, props.navigation, dispatch]);
+
+  const dispatch = useDispatch();
+
+  const handleSignIn = () => {
+    const requestBody = {username, password};
+    console.info('requestBody', requestBody);
+    setIsLogging(true);
+    dispatch(userSignIn(requestBody));
+  };
+
   return (
     <SafeAreaView style={styles.safeareaView}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -22,7 +70,12 @@ function SignInComponent(props) {
           <View style={styles.emptyView} />
           <View style={styles.textInputContainer}>
             <Feather name="user" size={28} />
-            <TextInput placeholder="Username" style={styles.textInput} />
+            <TextInput
+              placeholder="Username"
+              style={styles.textInput}
+              value={username}
+              onChangeText={text => setUsername(text)}
+            />
           </View>
           <View style={styles.textInputContainer}>
             <Feather name="lock" size={28} />
@@ -30,9 +83,11 @@ function SignInComponent(props) {
               placeholder="Password"
               secureTextEntry
               style={styles.textInput}
+              value={password}
+              onChangeText={text => setPassword(text)}
             />
           </View>
-          <Pressable>
+          <Pressable onPress={handleSignIn}>
             <View style={styles.btnContainer}>
               <Text style={styles.btnText}>Login</Text>
             </View>

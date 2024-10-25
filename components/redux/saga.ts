@@ -1,6 +1,11 @@
 import {takeEvery, put} from 'redux-saga/effects';
 import {FETCH_USER_LIST, SAVE_USER_LIST_RESPONSE} from './constant';
-import {USER_SIGN_UP, USER_SIGN_UP_RESPONSE} from './actionTypes';
+import {
+  USER_SIGN_UP,
+  USER_SIGN_UP_RESPONSE,
+  USER_SIGN_IN,
+  USER_SIGN_IN_RESPONSE,
+} from './actionTypes';
 import config from './../../config';
 
 function* doFetchUserList() {
@@ -60,9 +65,64 @@ function* userSignUp(params: type) {
   }
 }
 
+function* userSignIn(params: type) {
+  console.info('params:', params);
+  const url = `${config.baseURL}/users`;
+  console.info('register url --> ', url);
+
+  try {
+    const response = yield fetch(url);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = yield response.json();
+    console.log('all users: ', result);
+    var isUserExist = false;
+    var registeredUser;
+    result.forEach(user => {
+      if (
+        user.username === params.payload.username &&
+        user.password === params.payload.password
+      ) {
+        isUserExist = true;
+        registeredUser = user;
+        console.info('User Id: ', user.id);
+      }
+    });
+
+    if (isUserExist) {
+      const successResponse = {
+        status: 200,
+        message: 'User LoggedIn Successfully!',
+        data: registeredUser,
+      };
+      console.info('successResponse: ', successResponse);
+      yield put({type: USER_SIGN_IN_RESPONSE, successResponse});
+    } else {
+      const errorResponse = {
+        status: 404,
+        message: 'No User Found!',
+        data: null,
+      };
+      console.info('errorResponse: ', errorResponse);
+      yield put({type: USER_SIGN_IN_RESPONSE, errorResponse});
+    }
+  } catch (err) {
+    console.error(err.message);
+    const errorResponse = {
+      status: 400,
+      message: err.message || 'An error occurred during registration.',
+      data: result,
+    };
+    console.info('errorResponse: ', errorResponse);
+    yield put({type: USER_SIGN_IN_RESPONSE, errorResponse});
+  }
+}
+
 function* SagaData() {
   yield takeEvery(FETCH_USER_LIST, doFetchUserList);
   yield takeEvery(USER_SIGN_UP, userSignUp);
+  yield takeEvery(USER_SIGN_IN, userSignIn);
 }
 
 export default SagaData;

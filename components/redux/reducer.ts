@@ -7,6 +7,7 @@ import {
 import {
   USER_SIGN_UP_RESPONSE,
   RESET_USER_SIGN_UP_RESPONSE,
+  USER_SIGN_IN_RESPONSE,
 } from './actionTypes';
 
 const initialState = [];
@@ -41,6 +42,21 @@ export const user = (state = initialUserState, action) => {
 
   switch (action.type) {
     case USER_SIGN_UP_RESPONSE:
+      if (action.successResponse) {
+        return {
+          ...state,
+          successResponse: action.successResponse,
+          errorResponse: null,
+        };
+      } else {
+        return {
+          ...state,
+          errorResponse: action.errorResponse,
+          successResponse: null,
+        };
+      }
+
+    case USER_SIGN_IN_RESPONSE:
       if (action.successResponse) {
         return {
           ...state,
