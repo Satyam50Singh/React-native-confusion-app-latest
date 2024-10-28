@@ -16,9 +16,8 @@ const UsersList = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedItem, setSelectedItem] = useState([]);
 
-  const users = useSelector(state => state.reducer);
+  const users = useSelector(state => state.reducer.users);
   const dispatch = useDispatch();
-  console.log('Data received', users);
 
   const handleEdit = item => {
     setShowEditModal(true);
@@ -34,6 +33,7 @@ const UsersList = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    console.info('Data received: ', users);
     setFilteredUsers(users);
   }, [users]); // Update filteredUsers only when users changes
 
@@ -48,7 +48,7 @@ const UsersList = () => {
         data={users}
       />
       <ScrollView>
-        {filteredUsers.length
+        {filteredUsers?.length
           ? filteredUsers.map(item => {
               return (
                 <View style={styles.container} key={item.id}>

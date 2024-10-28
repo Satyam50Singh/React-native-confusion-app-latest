@@ -1,3 +1,7 @@
+export const ADD_TO_CART = 'add_to_cart';
+export const REMOVE_FROM_CART = 'remove_from_cart';
+export const FETCH_USER_LIST = 'fetch_user_list';
+export const SAVE_USER_LIST_RESPONSE = 'save_user_list_response';
 export const USER_SIGN_UP = 'user_sign_up';
 export const USER_SIGN_UP_RESPONSE = 'user_sign_up_response';
 export const RESET_USER_SIGN_UP_RESPONSE = 'reset_user_sign_up_response';

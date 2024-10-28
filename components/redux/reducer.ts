@@ -2,30 +2,39 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   SAVE_USER_LIST_RESPONSE,
-} from './constant';
-
-import {
   USER_SIGN_UP_RESPONSE,
   RESET_USER_SIGN_UP_RESPONSE,
   USER_SIGN_IN_RESPONSE,
 } from './actionTypes';
 
-const initialState = [];
+const initialState = {
+  cartItems: [],
+  users: [],
+};
 
 export const reducer = (state = initialState, action) => {
   console.log('Action received:', action);
   switch (action.type) {
     case ADD_TO_CART:
-      return [...state, action.payload];
+      return {
+        ...state,
+        cartItems: [...state.cartItems, action.payload],
+      };
 
     case REMOVE_FROM_CART:
-      const filteredState = state.filter(
+      const filteredCartItems = state.cartItems.filter(
         element => element.id !== action.payload.id,
       );
-      return filteredState;
+      return {
+        ...state,
+        cartItems: filteredCartItems,
+      };
 
     case SAVE_USER_LIST_RESPONSE:
-      return action.result;
+      return {
+        ...state,
+        users: action.result,
+      };
 
     default:
       return state;

@@ -1,114 +1,152 @@
 import {
-  Image,
   StyleSheet,
   Text,
   View,
   ActivityIndicator,
   Platform,
+  Pressable,
+  ScrollView,
 } from 'react-native';
-import {Button} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, {useState, useEffect} from 'react';
+import {getData} from './../utils/AsyncStorageUtils';
+
+const Card = ({title, backgroundColor, iconName}) => {
+  return (
+    <View style={[styles.innerCard, {backgroundColor}]}>
+      <View>
+        <Text style={styles.headingText}>{title}</Text>
+        <View style={styles.cardTextLine} />
+      </View>
+      <FontAwesome
+        name={iconName}
+        size={80}
+        style={styles.cardIcon}
+        color={'white'}
+      />
+    </View>
+  );
+};
 
 function HomeScreen({navigation, searchKey}: any) {
   const [isLoad, setIsLoad] = useState(false);
-
-  const userdetail = {
-    userName: 'Satyam Singh',
-    age: 24,
-    email: 'singh35satyam@gmail.com',
-    mobile: '9917847066',
-    designation: 'Sr. Mobile App Developer',
-  };
+  const [username, setUsername] = useState('');
+  const [textWidth, setTextWidth] = useState(0);
 
   useEffect(() => {
-    console.log('Component Mounted');
-
-    return () => {
-      console.log('Component Unmounted');
+    const fetchUsername = async () => {
+      var name = await getData('username');
+      setUsername(name);
     };
-  });
+    fetchUsername();
+  }, [username]);
+
+  const handleClick = cardId => {
+    setIsLoad(true);
+    var path = '';
+    switch (cardId) {
+      case 11:
+        path = 'View User List';
+        break;
+      case 22:
+        path = 'Buy Products';
+        break;
+      case 33:
+        path = 'My Skills';
+        break;
+      case 44:
+        path = 'My Experience';
+        break;
+      case 55:
+        path = 'Read Posts';
+        break;
+      case 66:
+        path = 'Top Navigation';
+        break;
+    }
+
+    setTimeout(() => {
+      setIsLoad(false);
+      navigation.navigate(path);
+    }, 400);
+  };
 
   return (
     <View>
       <View style={styles.outerContainer}>
-        <Text style={styles.headingText}>{searchKey}</Text>
-        <Image
-          source={require('.././assets/images/banner.jpg')}
-          style={styles.imageStyle}
-        />
-        <Text style={styles.bodyText}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
-          enim eaque earum amet ex deleniti magni repudiandae porro voluptatem
-          obcaecati rerum labore nulla eos aspernatur ipsam, reiciendis numquam
-          voluptatum pariatur.
-        </Text>
-
-        <View style={styles.btnGroup}>
-          <Button
-            icon={
-              <Icon
-                name="user-circle-o"
-                size={20}
-                color={'white'}
-                style={{marginRight: 10}}
-              />
-            }
-            title="Personal Details"
-            buttonStyle={{backgroundColor: 'purple'}}
-            onPress={() => {
-              setIsLoad(true);
-              setTimeout(() => {
-                setIsLoad(false);
-                navigation.navigate('Personal Details', {userdetail});
-              }, 3000);
-            }}
-          />
-
-          <Button
-            icon={
-              <MaterialIcons
-                name="read-more"
-                size={26}
-                color={'white'}
-                style={{marginRight: 10}}
-              />
-            }
-            title="See my skills"
-            buttonStyle={{backgroundColor: 'grey'}}
-            onPress={() => navigation.navigate('Skill Set')}
-          />
+        <View style={{flexDirection: 'row'}}>
+          <View>
+            <Text
+              style={styles.bodyText}
+              onLayout={event => {
+                const {width} = event.nativeEvent.layout;
+                setTextWidth(width); // Store the full text width
+              }}>
+              Welcome, {username}
+            </Text>
+            <View style={[styles.nameLine, {width: textWidth * 0.9}]} />
+          </View>
         </View>
-        <Button
-          icon={
-            <AntDesign
-              name="form"
-              size={24}
-              color={'white'}
-              style={{marginLeft: 10}}
+
+        <ScrollView>
+          <Pressable onPress={() => handleClick(11)}>
+            <Card
+              title="View Employees"
+              backgroundColor="#FFB74D"
+              iconName={'users'}
             />
-          }
-          title="Register"
-          iconRight
-          buttonStyle={{backgroundColor: 'blue', margin: 22}}
-          onPress={() => navigation.navigate('Register')}
-        />
+          </Pressable>
+          <Pressable onPress={() => handleClick(22)}>
+            <Card
+              title="Buy Products"
+              backgroundColor="#FF6F61"
+              iconName={'shopping-cart'}
+            />
+          </Pressable>
+
+          <Pressable onPress={() => handleClick(33)}>
+            <Card
+              title="User Skill"
+              backgroundColor="#4DB6AC"
+              iconName={'lightbulb-o'}
+            />
+          </Pressable>
+          <Pressable onPress={() => handleClick(44)}>
+            <Card
+              title="User Experience"
+              backgroundColor="#64B5F6"
+              iconName={'star'}
+            />
+          </Pressable>
+          <Pressable onPress={() => handleClick(55)}>
+            <Card
+              title="Read Post"
+              backgroundColor="#BA68C8"
+              iconName={'book'}
+            />
+          </Pressable>
+          <Pressable onPress={() => handleClick(66)}>
+            <Card
+              title="Navigation"
+              backgroundColor="#FF8A65"
+              iconName={'arrows'}
+            />
+          </Pressable>
+        </ScrollView>
       </View>
       {isLoad && (
         <View style={styles.loadingContainer}>
           <View style={styles.loadingModal}>
             {Platform.OS === 'android' ? (
-              <ActivityIndicator size={40} color="black" animating={isLoad} />
+              <ActivityIndicator size={40} color="#E8471C" animating={isLoad} />
             ) : (
               <ActivityIndicator
                 size="small"
-                color="black"
+                color="#E8471C"
                 animating={isLoad}
               />
             )}
-            <Text style={{fontSize: 22, color: 'black'}}> Loading ...</Text>
+            <Text style={styles.loadingText}> Loading ...</Text>
           </View>
         </View>
       )}
@@ -123,7 +161,7 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 24,
     fontWeight: '500',
-    color: 'black',
+    color: 'white',
     fontFamily: 'times new roman',
     marginBottom: 12,
   },
@@ -153,12 +191,42 @@ const styles = StyleSheet.create({
   imageStyle: {width: '100%', height: 240, marginBottom: 26},
   bodyText: {
     fontSize: 24,
-    marginBottom: 16,
     textAlign: 'justify',
     color: 'black',
-    fontFamily: 'cursive',
+    marginBottom: 4,
+    marginLeft: 6,
+    fontWeight: '600',
   },
   btnGroup: {flexDirection: 'row', justifyContent: 'space-around'},
+  innerCard: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 16,
+    backgroundColor: '#FFB74D', // Light Red for card background
+    borderColor: '#ffffff', // Darker Red for border
+    borderWidth: 2,
+    borderRadius: 12,
+    elevation: 5,
+    marginBottom: 16,
+  },
+  cardIcon: {
+    opacity: 0.9,
+    paddingRight: 16,
+  },
+  nameLine: {
+    height: 4,
+    backgroundColor: 'black',
+    width: '62%',
+    marginLeft: 6,
+    marginBottom: 16,
+  },
+  cardTextLine: {
+    height: 4,
+    backgroundColor: 'white',
+    width: '90%',
+  },
+  loadingText: {fontSize: 22, color: 'black', marginLeft: 8},
 });
 
 export default HomeScreen;

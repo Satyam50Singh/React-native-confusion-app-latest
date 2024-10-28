@@ -1,6 +1,7 @@
 import {takeEvery, put} from 'redux-saga/effects';
-import {FETCH_USER_LIST, SAVE_USER_LIST_RESPONSE} from './constant';
 import {
+  FETCH_USER_LIST,
+  SAVE_USER_LIST_RESPONSE,
   USER_SIGN_UP,
   USER_SIGN_UP_RESPONSE,
   USER_SIGN_IN,
@@ -11,6 +12,7 @@ import config from './../../config';
 function* doFetchUserList() {
   try {
     const url = `${config.baseURL}/register`;
+    console.info('api url --> ', url);
     const response = yield fetch(url);
     if (!response.ok) {
       throw new Error('Network response was not ok');

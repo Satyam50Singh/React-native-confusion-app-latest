@@ -3,10 +3,10 @@ import {ScrollView, SafeAreaView} from 'react-native';
 import Header from './Header';
 import Product from './Product';
 
-const MainComponent = () => {
+const MainComponent = ({navigation}) => {
   return (
     <SafeAreaView>
-      <Header />
+      <Header navigation={navigation} />
       <ScrollView>
         <Product />
       </ScrollView>

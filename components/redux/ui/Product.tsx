@@ -49,12 +49,13 @@ const Product = () => {
   ];
 
   const dispatch = useDispatch();
-  const cartItems = useSelector(state => state.reducer);
+  const cartItems = useSelector(state => state.reducer.cartItems);
 
   useEffect(() => {
+    console.info('cartItems: ', cartItems);
     let updatedItems = {};
 
-    if (cartItems && cartItems.length) {
+    if (cartItems && cartItems?.length) {
       cartItems.forEach(element => {
         updatedItems[element.id] = true; // Mark items as added
       });
@@ -72,7 +73,7 @@ const Product = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: '#ffeeed', paddingTop: 8}}>
       {products
         ? products.map(item => (
             <View key={item.id} style={styles.productContainer}>
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     borderRadius: 12,
+    backgroundColor: 'white',
   },
   innerContainer: {
     flex: 1,

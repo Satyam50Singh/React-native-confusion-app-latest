@@ -7,9 +7,9 @@ export default styles = StyleSheet.create({
     marginHorizontal: 16,
     justifyContent: 'space-between',
     borderRadius: 6,
-    borderColor: 'grey',
+    borderColor: '#E8471C',
     padding: 12,
-    borderWidth: 1.5,
+    borderWidth: 2,
   },
   innerContainer: {flexDirection: 'row', alignItems: 'center'},
   textStyle: {
