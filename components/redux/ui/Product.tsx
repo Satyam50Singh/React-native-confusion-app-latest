@@ -1,7 +1,14 @@
 import React, {useState, useEffect} from 'react';
 
-import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
-import {Button} from 'react-native-elements';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {addToCart, removeFromCart} from './../action';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -46,6 +53,15 @@ const Product = () => {
       imageUrl:
         'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQkh8HpSyHKEF2xjFBvdGVAL3lGNPRJE4pGMDhoaQ4OXYoRoirXtY6T50QkjG-bgVyKOfMn1PJMFJNYGgqEiojNX6CVSnUq6woTDgFCsAACNfg5BpmN6o5U8xI',
     },
+    {
+      id: 'P0005',
+      name: 'Nokia 2378A',
+      description:
+        'Motorola Edge 50 Fusion 5G (Hot Pink, 8GB RAM, 128GB Storage)',
+      price: '23,000',
+      imageUrl:
+        'https://m.media-amazon.com/images/I/51kH6DymEAL._SX300_SY300_QL70_FMwebp_.jpg',
+    },
   ];
 
   const dispatch = useDispatch();
@@ -73,48 +89,53 @@ const Product = () => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: '#ffeeed', paddingTop: 8}}>
-      {products
-        ? products.map(item => (
-            <View key={item.id} style={styles.productContainer}>
-              <View style={styles.innerContainer}>
-                <Text style={styles.productTitle}>{item.name}</Text>
-                <Text style={styles.productPrice}>
-                  ₹ {item.price} + deliver
-                </Text>
-                <Text style={styles.productDesc}>{item.description}</Text>
-              </View>
-              <View>
-                <Button
+    <SafeAreaView style={styles.mainContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {products
+          ? products.map(item => (
+              <View key={item.id} style={styles.productContainer}>
+                <View>
+                  <Image
+                    source={{
+                      uri: item.imageUrl,
+                    }}
+                    style={styles.productImage}
+                  />
+                </View>
+                <View style={styles.innerContainer}>
+                  <Text style={styles.productTitle}>{item.name}</Text>
+                  <Text style={styles.productPrice}>
+                    ₹ {item.price} + deliver
+                  </Text>
+                  <Text style={styles.productDesc}>{item.description}</Text>
+                </View>
+                <TouchableOpacity
                   onPress={() =>
                     addedItems[item.id]
                       ? handleRemoveFromCart(item)
                       : handleAddToCart(item)
-                  }
-                  iconRight
-                  icon={
-                    <FontAwesome
-                      name={addedItems[item.id] ? 'heart' : 'heart-o'}
-                      size={20}
-                      color="white"
-                    />
-                  }
-                />
-                <Image
-                  source={{
-                    uri: item.imageUrl,
-                  }}
-                  style={styles.productImage}
-                />
+                  }>
+                  <FontAwesome
+                    name={addedItems[item.id] ? 'heart' : 'heart-o'}
+                    size={20}
+                    color="#E8471C"
+                  />
+                </TouchableOpacity>
               </View>
-            </View>
-          ))
-        : null}
+            ))
+          : null}
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#ffeeed',
+    paddingTop: 8,
+    paddingBottom: 64,
+  },
   productContainer: {
     padding: 16,
     margin: 8,
@@ -126,6 +147,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
+    marginLeft: 16,
   },
   productTitle: {
     fontSize: 20,
@@ -143,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: 'black',
   },
-  productImage: {width: 90, height: 120, marginTop: 8},
+  productImage: {width: 100, height: 130},
 });
 
 export default Product;

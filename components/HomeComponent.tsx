@@ -52,7 +52,7 @@ function HomeScreen({navigation, searchKey}: any) {
         path = 'Buy Products';
         break;
       case 33:
-        path = 'My Skills';
+        path = 'User Skill';
         break;
       case 44:
         path = 'My Experience';
@@ -72,7 +72,7 @@ function HomeScreen({navigation, searchKey}: any) {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <View style={styles.outerContainer}>
         <View style={{flexDirection: 'row'}}>
           <View>
@@ -88,50 +88,53 @@ function HomeScreen({navigation, searchKey}: any) {
           </View>
         </View>
 
-        <ScrollView>
-          <Pressable onPress={() => handleClick(11)}>
-            <Card
-              title="View Employees"
-              backgroundColor="#FFB74D"
-              iconName={'users'}
-            />
-          </Pressable>
-          <Pressable onPress={() => handleClick(22)}>
-            <Card
-              title="Buy Products"
-              backgroundColor="#FF6F61"
-              iconName={'shopping-cart'}
-            />
-          </Pressable>
-
-          <Pressable onPress={() => handleClick(33)}>
-            <Card
-              title="User Skill"
-              backgroundColor="#4DB6AC"
-              iconName={'lightbulb-o'}
-            />
-          </Pressable>
-          <Pressable onPress={() => handleClick(44)}>
-            <Card
-              title="User Experience"
-              backgroundColor="#64B5F6"
-              iconName={'star'}
-            />
-          </Pressable>
-          <Pressable onPress={() => handleClick(55)}>
-            <Card
-              title="Read Post"
-              backgroundColor="#BA68C8"
-              iconName={'book'}
-            />
-          </Pressable>
-          <Pressable onPress={() => handleClick(66)}>
-            <Card
-              title="Navigation"
-              backgroundColor="#FF8A65"
-              iconName={'arrows'}
-            />
-          </Pressable>
+        <ScrollView
+          contentContainerStyle={{paddingBottom: 48}}
+          showsVerticalScrollIndicator={false}>
+          <View>
+            <Pressable onPress={() => handleClick(11)}>
+              <Card
+                title="View Employees"
+                backgroundColor="#FFB74D"
+                iconName={'users'}
+              />
+            </Pressable>
+            <Pressable onPress={() => handleClick(22)}>
+              <Card
+                title="Buy Products"
+                backgroundColor="#FF6F61"
+                iconName={'shopping-cart'}
+              />
+            </Pressable>
+            <Pressable onPress={() => handleClick(33)}>
+              <Card
+                title="User Skill"
+                backgroundColor="#4DB6AC"
+                iconName={'lightbulb-o'}
+              />
+            </Pressable>
+            <Pressable onPress={() => handleClick(44)}>
+              <Card
+                title="User Experience"
+                backgroundColor="#64B5F6"
+                iconName={'star'}
+              />
+            </Pressable>
+            <Pressable onPress={() => handleClick(55)}>
+              <Card
+                title="Read Post"
+                backgroundColor="#BA68C8"
+                iconName={'book'}
+              />
+            </Pressable>
+            <Pressable onPress={() => handleClick(66)}>
+              <Card
+                title="Navigation"
+                backgroundColor="#FF8A65"
+                iconName={'arrows'}
+              />
+            </Pressable>
+          </View>
         </ScrollView>
       </View>
       {isLoad && (
@@ -203,7 +206,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     padding: 16,
-    backgroundColor: '#FFB74D', // Light Red for card background
     borderColor: '#ffffff', // Darker Red for border
     borderWidth: 2,
     borderRadius: 12,
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardIcon: {
-    opacity: 0.9,
+    // opacity: 0.9,
     paddingRight: 16,
   },
   nameLine: {

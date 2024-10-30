@@ -8,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import config from './../../config';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,7 +16,7 @@ const CustomList = () => {
   const [posts, setPosts] = useState([]);
 
   const callApi = async () => {
-    const url = 'http://192.168.1.5:3000/todos/';
+    const url = `${config.baseURL}/todos`;
     try {
       let response = await fetch(url);
       if (!response.ok) {
@@ -32,7 +33,6 @@ const CustomList = () => {
   }, []);
   return (
     <SafeAreaView>
-      <Text style={styles.heading}>Using Custom List</Text>
       <ScrollView style={styles.container}>
         <View>
           {posts.length ? (
@@ -63,7 +63,7 @@ const FlatListComponent = () => {
   const [posts, setPosts] = useState([]);
 
   const callApi = async () => {
-    const url = 'http://192.168.1.5:3000/posts/';
+    const url = `${config.baseURL}/posts`;
     try {
       let response = await fetch(url);
       if (!response.ok) {
@@ -80,7 +80,6 @@ const FlatListComponent = () => {
   }, []);
   return (
     <View>
-      <Text style={styles.heading}>Using Flat List</Text>
       <FlatList
         data={posts}
         keyExtractor={item => item.id.toString()}
@@ -99,7 +98,24 @@ const FlatListComponent = () => {
 
 const UserPostList = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={{
+        indicatorStyle: {
+          backgroundColor: 'red',
+        },
+      }}
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: '#ffffff',
+        },
+
+        tabBarActiveTintColor: '#E8471C', // Color of the selected tab icon and text
+        tabBarInactiveTintColor: '#888888',
+        tabBarLabelStyle: {
+          fontSize: 14,
+          fontWeight: '600',
+        },
+      }}>
       <Tab.Screen name="Custom List" component={CustomList} />
       <Tab.Screen name="Flatlist" component={FlatListComponent} />
     </Tab.Navigator>
@@ -107,15 +123,9 @@ const UserPostList = () => {
 };
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 22,
-    margin: 14,
-    textAlign: 'center',
-    fontWeight: '600',
-  },
   container: {
-    marginHorizontal: 16,
-    marginBottom: 16,
+    paddingHorizontal: 16,
+    marginVertical: 16,
   },
   cardView: {
     padding: 10,

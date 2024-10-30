@@ -71,13 +71,13 @@ function* userSignIn(params: type) {
   console.info('params:', params);
   const url = `${config.baseURL}/users`;
   console.info('register url --> ', url);
-
+  var result;
   try {
     const response = yield fetch(url);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const result = yield response.json();
+    result = yield response.json();
     console.log('all users: ', result);
     var isUserExist = false;
     var registeredUser;
@@ -110,7 +110,6 @@ function* userSignIn(params: type) {
       yield put({type: USER_SIGN_IN_RESPONSE, errorResponse});
     }
   } catch (err) {
-    console.error(err.message);
     const errorResponse = {
       status: 400,
       message: err.message || 'An error occurred during registration.',

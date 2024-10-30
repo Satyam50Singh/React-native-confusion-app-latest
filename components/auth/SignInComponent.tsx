@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     fontSize: 18,
-    backgroundColor: '#E8471C',
+    backgroundColor: 'red',
     borderRadius: 12,
     padding: 16,
     marginTop: 8,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     marginVertical: '20%',
     fontSize: 16,
     textAlign: 'center',
-    color: '#E8471C',
+    color: 'red',
   },
   bottomContainer: {
     marginTop: '6%',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   bottomTextSignUp: {
-    color: '#E8471C',
+    color: 'red',
     fontWeight: '600',
   },
   bottomLineContainer: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   bottomLineInner2: {
     height: 4,
     flex: 1,
-    backgroundColor: '#E8471C',
+    backgroundColor: 'red',
     alignItems: 'right',
   },
 });

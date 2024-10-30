@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   SafeAreaView,
@@ -8,7 +8,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {getData} from './../utils/AsyncStorageUtils';
 
 const skills = [
   {
@@ -35,21 +35,32 @@ export default function SectionListComponent({
   route: any;
   navigation: any;
 }) {
+  const [username, setUsername] = useState('');
+  const [textWidth, setTextWidth] = useState(0);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      var name = await getData('username');
+      setUsername(name);
+    };
+    fetchUsername();
+  }, [username]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableHighlight
-        underlayColor="transparent"
-        onPress={() => navigation.navigate('Experience')}>
-        <View style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Work Experience</Text>
-          <MaterialIcons
-            name="read-more"
-            size={30}
-            color="white"
-            style={{paddingLeft: 10}}
-          />
+      <View style={{flexDirection: 'row'}}>
+        <View>
+          <Text
+            style={styles.bodyText}
+            onLayout={event => {
+              const {width} = event.nativeEvent.layout;
+              setTextWidth(width);
+            }}>
+            {username}'s Skills
+          </Text>
+          <View style={[styles.nameLine, {width: textWidth * 0.9}]} />
         </View>
-      </TouchableHighlight>
+      </View>
 
       <SectionList
         sections={skills}
@@ -69,6 +80,13 @@ export default function SectionListComponent({
           <Text style={styles.paragraph}>{name}</Text>
         )}
       />
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() => navigation.navigate('User Experience')}>
+        <View style={styles.btnContainer}>
+          <Text style={styles.btnText}>Work Experience</Text>
+        </View>
+      </TouchableHighlight>
     </SafeAreaView>
   );
 }
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
   paragraph: {
     marginVertical: 8,
     marginHorizontal: 16,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   innerText: {
@@ -98,23 +116,36 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 26,
   },
-  buttonContainer: {
+  btnText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: '600',
+  },
+  btnContainer: {
     alignItems: 'center', // Center vertically
     justifyContent: 'center',
     flexDirection: 'row',
+    fontSize: 18,
+    backgroundColor: '#E8471C',
     borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 18,
-    borderColor: '#ddd',
-    elevation: 4,
-    marginTop: 12,
-    textAlign: 'center',
-    backgroundColor: 'blue',
+    padding: 16,
+    marginTop: 8,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: '500',
-    marginVertical: 10,
+  bodyText: {
+    marginTop: 8,
+    fontSize: 24,
+    textAlign: 'justify',
+    color: 'black',
+    marginBottom: 4,
+    marginLeft: 6,
+    fontWeight: '600',
+  },
+  nameLine: {
+    height: 4,
+    backgroundColor: 'black',
+    width: '62%',
+    marginLeft: 6,
+    marginBottom: 16,
   },
 });

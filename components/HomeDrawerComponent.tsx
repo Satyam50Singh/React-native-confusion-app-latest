@@ -89,7 +89,7 @@ export default function HomeDrawerComponent() {
         drawerActiveTintColor: '#E8471C', // Text color for selected item
         drawerInactiveTintColor: '#000',
         headerStyle: {
-          backgroundColor: '#E8471C',
+          backgroundColor: 'red',
         },
         headerTintColor: 'white',
         headerTitleStyle: {fontSize: 20},
@@ -128,15 +128,16 @@ export default function HomeDrawerComponent() {
         }}
       />
       <Drawer.Screen
-        name="My Skills"
+        name="User Skill"
         component={SectionListComponent}
         options={{
-          headerShown: false,
+          headerTitle: 'User Skills',
+          headerShown: true,
           drawerIcon: ({color}) => renderMySkillsIcon(color),
         }}
       />
       <Drawer.Screen
-        name="My Experience"
+        name="User Experience"
         component={ExperienceComponent}
         options={{
           headerShown: false,
@@ -147,7 +148,7 @@ export default function HomeDrawerComponent() {
         name="Read Posts"
         component={UserPostList}
         options={{
-          headerShown: false,
+          headerShown: true,
           drawerIcon: ({color}) => renderReadPostIcon(color),
         }}
       />
